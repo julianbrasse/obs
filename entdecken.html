@@ -53,6 +53,8 @@
 			--space-xl: 72px;
 
 			--line: 1px solid var(--rule);
+			--radius: 5px;
+			--speed: 0.35s;
 
 			overflow-x: clip;
 			font: var(--size-m)/1.55 var(--sans);
@@ -65,6 +67,11 @@
 				height: 100%;
 				object-fit: cover;
 				object-position: 50% 30%;
+				transition: transform var(--speed);
+
+				&:hover {
+					transform: scale(1.05);
+				}
 
 				&.top {
 					object-position: 50% 5%;
@@ -103,7 +110,9 @@
 
 			& figure {
 				overflow: hidden;
+				isolation: isolate;
 				aspect-ratio: 4 / 5;
+				border-radius: var(--radius);
 				background: var(--rule);
 			}
 
@@ -159,8 +168,9 @@
 				white-space: nowrap;
 				text-decoration: none;
 				color: var(--white);
+				border-radius: var(--radius);
 				background: var(--teal) linear-gradient(90deg, var(--teal) 50%, var(--navy)) 0% 0% / 200% 100%;
-				transition: background-position 0.35s;
+				transition: background-position var(--speed);
 
 				& svg {
 					width: 14px;
@@ -253,6 +263,7 @@
 				& article {
 					padding: var(--space-m);
 					border: none;
+					border-radius: var(--radius);
 					background: var(--white);
 				}
 			}
@@ -264,7 +275,7 @@
 				--focus: 50% 38%;
 			}
 
-			& .early {
+			& .early-years {
 				--phase: #753bbd;
 				--phase-soft: #d7c6e6;
 				--focus: 50% 48%;
@@ -276,13 +287,13 @@
 				--focus: 50% 35%;
 			}
 
-			& .middle {
+			& .middle-school {
 				--phase: #00a7b5;
 				--phase-soft: #b1e4e3;
 				--focus: 50% 45%;
 			}
 
-			& .upper {
+			& .upper-school {
 				--phase: #004680;
 				--phase-soft: #b9d9eb;
 				--focus: 50% 42%;
@@ -292,19 +303,21 @@
 				display: flex;
 				flex-wrap: wrap;
 				gap: 0px var(--space-m);
-				border-bottom: var(--line);
+				/* The rule is drawn inside the tab row, so a selected tab's 3px line covers it exactly */
+				box-shadow: inset 0px -1px var(--rule);
 			}
 
 			& .tab {
-				margin-bottom: -1px;
 				padding: var(--space-m) var(--space-l) var(--space-m) var(--space-m);
 				font: 600 var(--size-m) var(--sans);
 				text-align: left;
 				color: var(--ink);
 				border: none;
 				border-bottom: 3px solid #0000;
+				border-radius: var(--radius) var(--radius) 0px 0px;
 				background: none;
 				cursor: pointer;
+				transition: background-color var(--speed), border-color var(--speed);
 
 				&::before {
 					content: "";
@@ -322,7 +335,15 @@
 
 				&[aria-selected="true"] {
 					border-bottom-color: var(--phase);
-					background: color-mix(in srgb, var(--phase-soft) 20%, #0000);
+				}
+
+				&[aria-selected="true"],
+				&:hover {
+					background-color: color-mix(in srgb, var(--phase-soft) 20%, #0000);
+				}
+
+				&:focus-visible {
+					outline: none;
 				}
 			}
 
@@ -334,7 +355,7 @@
 				color: var(--ink);
 				border: var(--line);
 				border-left: 6px solid var(--phase);
-				border-radius: 0px;
+				border-radius: var(--radius);
 				background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%233d3935' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right var(--space-m) center / 12px;
 				appearance: none;
 			}
@@ -355,6 +376,7 @@
 
 				& .label {
 					padding: 4px var(--space-s);
+					border-radius: var(--radius);
 					background: var(--phase-soft);
 				}
 			}
@@ -464,6 +486,38 @@
 				}
 			}
 		}
+
+		/* Slide up: sections on scroll (.reveal) and the stage panel each time it is shown.
+		   Only once the script has started (.animate), never for reduced motion or print. */
+		@keyframes slide-up {
+			from {
+				opacity: 0;
+				translate: 0px var(--rise, var(--space-l));
+			}
+		}
+
+		@media screen and (prefers-reduced-motion: no-preference) {
+			.obslp.animate {
+				& .reveal:not(.shown) {
+					opacity: 0;
+				}
+
+				& .reveal.shown {
+					animation: slide-up 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) var(--delay, 0s) backwards;
+				}
+
+				/* Image first, text 0.1s later, like the sections. --delay is reset so it isn't inherited from the .reveal wrapper. */
+				& .panel > * {
+					--rise: var(--space-m);
+					--delay: 0s;
+					animation: slide-up 0.4s cubic-bezier(0.2, 0.7, 0.3, 1) var(--delay) backwards;
+
+					&:last-child {
+						--delay: 0.1s;
+					}
+				}
+			}
+		}
 	</style>
 </head>
 <body>
@@ -491,42 +545,42 @@
 		</section>
 		<div class="facts">
 			<ul class="wrap">
-				<li>
+				<li class="reveal">
 					<p><span class="number">7:1</span></p>
 					<p class="muted">Lernende pro Lehrperson, für kleine Gruppen und persönliche Begleitung.</p>
 				</li>
-				<li>
+				<li class="reveal">
 					<p><span class="number">41</span> <span class="label">Nationen</span></p>
 					<p class="muted">Schweizer und internationale Familien, Seite an Seite.</p>
 				</li>
-				<li>
+				<li class="reveal">
 					<p><span class="number">50/50</span></p>
 					<p class="muted">Deutsch und Englisch zu gleichen Teilen.</p>
 				</li>
-				<li>
+				<li class="reveal">
 					<p><span class="number">30+</span> <span class="label">Clubs</span></p>
 					<p class="muted">Clubs und Aktivitäten über den Unterricht hinaus.</p>
 				</li>
 			</ul>
 		</div>
-		<section>
+		<section class="why">
 			<div class="wrap stack">
-				<p class="label">Warum die OBS</p>
-				<h2>Eine Schule, von der Babycare bis zur <em>Oberstufe.</em></h2>
+				<p class="label reveal">Warum die OBS</p>
+				<h2 class="reveal">Eine Schule, von der Babycare bis zur <em>Oberstufe.</em></h2>
 				<div class="split cards">
-					<article class="stack">
+					<article class="stack reveal">
 						<h3>Zweisprachig von Anfang an</h3>
 						<p>Deutsch und Englisch zu gleichen Teilen, von der Babycare ab 3 Monaten bis zur Oberstufe. So wachsen Kinder in beiden Sprachen selbstverständlich auf.</p>
 					</article>
-					<article class="stack">
+					<article class="stack reveal">
 						<h3>Jedes Kind wird gesehen</h3>
 						<p>Kleine Gruppen, Lehrpersonen als Mentorinnen und Mentoren und ab der Mittelstufe ein persönlicher Coach. Mit Unterstützung, wo ein Kind sie braucht, und Förderung, wo es weiter will.</p>
 					</article>
-					<article class="stack">
+					<article class="stack reveal">
 						<h3>Zwei Wege, eine Schule</h3>
 						<p>Lehrplan 21 bis zur 9. Klasse, Sek und Gymi unter einem Dach. Danach die eidgenössische Matura oder das IB Diploma, ohne Schulwechsel.</p>
 					</article>
-					<article class="stack">
+					<article class="stack reveal">
 						<h3>Kompetenzen für morgen</h3>
 						<p>STEAMS Innovation Academy, OBS Media Academy und OBS Space Agency: Weltraumforschung, Meeresforschung, Film und mehr.</p>
 					</article>
@@ -535,108 +589,110 @@
 		</section>
 		<section class="stages" id="stages">
 			<div class="wrap stack">
-				<p class="label">Jede Stufe</p>
-				<h2>Der ganze Weg Ihres Kindes, <em>an einem Ort.</em></h2>
-				<div class="tabs" role="tablist">
-					<button class="tab babycare" type="button" role="tab" value="babycare" id="tab_babycare" aria-controls="panel_babycare" aria-selected="true">Babycare <span class="muted">Ab 3 Monaten</span></button>
-					<button class="tab early" type="button" role="tab" value="early-years" id="tab_early_years" aria-controls="panel_early_years" aria-selected="false">Vorschule & Kindergarten <span class="muted">2 bis 6 Jahre</span></button>
-					<button class="tab primary" type="button" role="tab" value="primary" id="tab_primary" aria-controls="panel_primary" aria-selected="false">Primarschule <span class="muted">1. bis 6. Klasse</span></button>
-					<button class="tab middle" type="button" role="tab" value="middle-school" id="tab_middle_school" aria-controls="panel_middle_school" aria-selected="false">Mittelstufe <span class="muted">7. bis 9. Klasse</span></button>
-					<button class="tab upper" type="button" role="tab" value="upper-school" id="tab_upper_school" aria-controls="panel_upper_school" aria-selected="false">Oberstufe <span class="muted">10. bis 12. Klasse</span></button>
-				</div>
-				<select class="phase-select babycare" id="phase_select" aria-label="Jede Stufe">
-					<option value="babycare">Babycare · Ab 3 Monaten</option>
-					<option value="early-years">Vorschule & Kindergarten · 2 bis 6 Jahre</option>
-					<option value="primary">Primarschule · 1. bis 6. Klasse</option>
-					<option value="middle-school">Mittelstufe · 7. bis 9. Klasse</option>
-					<option value="upper-school">Oberstufe · 10. bis 12. Klasse</option>
-				</select>
-				<div class="panel split babycare" role="tabpanel" id="panel_babycare" aria-labelledby="tab_babycare">
-					<figure><img src="https://julianbrasse.github.io/obs/8ed1348b-3640-4175-bd49-bd77ca845320.jpg" alt="Eine Betreuerin sitzt am Boden, ein lachendes Baby mit einem Plüsch-Lama auf dem Schoss" width="1065" height="1600" loading="lazy" /></figure>
-					<div class="stack">
-						<span class="label">Babycare · Ab 3 Monaten</span>
-						<h3>Ein warmer Start für <em>Ihr Baby.</em></h3>
-						<ul>
-							<li>Einfühlsame, zweisprachige Betreuung</li>
-							<li>Kleine Gruppen</li>
-							<li>Ein kleines, liebevolles Umfeld</li>
-							<li>Betreuung von 7.15 bis 18.30 Uhr</li>
-						</ul>
-						<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Babycare besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+				<p class="label reveal">Jede Stufe</p>
+				<h2 class="reveal">Der ganze Weg Ihres Kindes, <em>an einem Ort.</em></h2>
+				<div class="stack reveal">
+					<div class="tabs" role="tablist">
+						<button class="tab babycare" type="button" role="tab" value="babycare" id="tab_babycare" aria-controls="panel_babycare" aria-selected="true">Babycare <span class="muted">Ab 3 Monaten</span></button>
+						<button class="tab early-years" type="button" role="tab" value="early-years" id="tab_early_years" aria-controls="panel_early_years" aria-selected="false">Vorschule & Kindergarten <span class="muted">2 bis 6 Jahre</span></button>
+						<button class="tab primary" type="button" role="tab" value="primary" id="tab_primary" aria-controls="panel_primary" aria-selected="false">Primarschule <span class="muted">1. bis 6. Klasse</span></button>
+						<button class="tab middle-school" type="button" role="tab" value="middle-school" id="tab_middle_school" aria-controls="panel_middle_school" aria-selected="false">Mittelstufe <span class="muted">7. bis 9. Klasse</span></button>
+						<button class="tab upper-school" type="button" role="tab" value="upper-school" id="tab_upper_school" aria-controls="panel_upper_school" aria-selected="false">Oberstufe <span class="muted">10. bis 12. Klasse</span></button>
 					</div>
-				</div>
-				<div class="panel split early" role="tabpanel" id="panel_early_years" aria-labelledby="tab_early_years" hidden>
-					<figure><img src="https://julianbrasse.github.io/obs/2ba74f21-2887-4718-81fd-ba00e7b4f676.jpg" alt="Eine Pädagogin liest drei kleinen Kindern aus einem Bilderbuch vor" width="1065" height="1600" loading="lazy" /></figure>
-					<div class="stack">
-						<span class="label">Vorschule & Kindergarten · 2 bis 6 Jahre</span>
-						<h3>Zweisprachig von <em>Anfang an.</em></h3>
-						<ul>
-							<li>Spielerisch lernen, jeden Tag auf Deutsch und Englisch</li>
-							<li>Pädagoginnen und Pädagogen, die jedes Kind kennen</li>
-							<li>Waldtage, Ausflüge und eigene Gartenbeete</li>
-							<li>Betreuung von 7.15 bis 18.30 Uhr</li>
-						</ul>
-						<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Vorschule & Kiga besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+					<select class="phase-select babycare" id="phase_select" aria-label="Jede Stufe">
+						<option value="babycare">Babycare · Ab 3 Monaten</option>
+						<option value="early-years">Vorschule & Kindergarten · 2 bis 6 Jahre</option>
+						<option value="primary">Primarschule · 1. bis 6. Klasse</option>
+						<option value="middle-school">Mittelstufe · 7. bis 9. Klasse</option>
+						<option value="upper-school">Oberstufe · 10. bis 12. Klasse</option>
+					</select>
+					<div class="panel split babycare" role="tabpanel" id="panel_babycare" aria-labelledby="tab_babycare">
+						<figure><img src="https://julianbrasse.github.io/obs/8ed1348b-3640-4175-bd49-bd77ca845320.jpg" alt="Eine Betreuerin sitzt am Boden, ein lachendes Baby mit einem Plüsch-Lama auf dem Schoss" width="1065" height="1600" decoding="async" /></figure>
+						<div class="stack">
+							<span class="label">Babycare · Ab 3 Monaten</span>
+							<h3>Ein warmer Start für <em>Ihr Baby.</em></h3>
+							<ul>
+								<li>Einfühlsame, zweisprachige Betreuung</li>
+								<li>Kleine Gruppen</li>
+								<li>Ein kleines, liebevolles Umfeld</li>
+								<li>Betreuung von 7.15 bis 18.30 Uhr</li>
+							</ul>
+							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Babycare besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+						</div>
 					</div>
-				</div>
-				<div class="panel split primary" role="tabpanel" id="panel_primary" aria-labelledby="tab_primary" hidden>
-					<figure><img src="https://julianbrasse.github.io/obs/139787da-b9c8-4857-95f2-c2e9743df83f.jpg" alt="Ein lächelndes Mädchen misst etwas an einem Whiteboard ab" width="1065" height="1600" loading="lazy" /></figure>
-					<div class="stack">
-						<span class="label">Primarschule · 1. bis 6. Klasse</span>
-						<h3>Neugierig. Selbstbewusst. <em>Zweisprachig.</em></h3>
-						<ul>
-							<li>Gleichwertig zweisprachig in Deutsch und Englisch</li>
-							<li>Lehrpersonen als Mentoren, mit individueller Förderung</li>
-							<li>Fächerübergreifend und nah am echten Leben</li>
-							<li>Clubs und Angebote über den Unterricht hinaus</li>
-							<li>Schulbusse ab Pfäffikon und Thalwil</li>
-						</ul>
-						<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Primarschule besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+					<div class="panel split early-years" role="tabpanel" id="panel_early_years" aria-labelledby="tab_early_years" hidden>
+						<figure><img src="https://julianbrasse.github.io/obs/2ba74f21-2887-4718-81fd-ba00e7b4f676.jpg" alt="Eine Pädagogin liest drei kleinen Kindern aus einem Bilderbuch vor" width="1065" height="1600" decoding="async" /></figure>
+						<div class="stack">
+							<span class="label">Vorschule & Kindergarten · 2 bis 6 Jahre</span>
+							<h3>Zweisprachig von <em>Anfang an.</em></h3>
+							<ul>
+								<li>Spielerisch lernen, jeden Tag auf Deutsch und Englisch</li>
+								<li>Pädagoginnen und Pädagogen, die jedes Kind kennen</li>
+								<li>Waldtage, Ausflüge und eigene Gartenbeete</li>
+								<li>Betreuung von 7.15 bis 18.30 Uhr</li>
+							</ul>
+							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Vorschule & Kiga besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+						</div>
 					</div>
-				</div>
-				<div class="panel split middle" role="tabpanel" id="panel_middle_school" aria-labelledby="tab_middle_school" hidden>
-					<figure><img src="https://julianbrasse.github.io/obs/d3aed6b4-3e5f-44bc-8dc2-50411071fc78.jpg" alt="Eine Schülerin lächelt über ihrer Arbeit, im Vordergrund zwei Mitschüler" width="1065" height="1600" loading="lazy" /></figure>
-					<div class="stack">
-						<span class="label">Mittelstufe · 7. bis 9. Klasse</span>
-						<h3>Eigene Träume. <em>Eigener Weg.</em></h3>
-						<ul>
-							<li>Ein persönlicher Coach und Lernen im eigenen Tempo</li>
-							<li>Sek und Gymi nebeneinander, unter einem Dach</li>
-							<li>Eidgenössische Matura oder IB Diploma, gewählt nach der 9. Klasse</li>
-							<li>Weltraumforschung, Meeresforschung, Film und mehr</li>
-							<li>Schulbusse ab Pfäffikon und Thalwil</li>
-						</ul>
-						<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Mittelstufe besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+					<div class="panel split primary" role="tabpanel" id="panel_primary" aria-labelledby="tab_primary" hidden>
+						<figure><img src="https://julianbrasse.github.io/obs/139787da-b9c8-4857-95f2-c2e9743df83f.jpg" alt="Ein lächelndes Mädchen misst etwas an einem Whiteboard ab" width="1065" height="1600" decoding="async" /></figure>
+						<div class="stack">
+							<span class="label">Primarschule · 1. bis 6. Klasse</span>
+							<h3>Neugierig. Selbstbewusst. <em>Zweisprachig.</em></h3>
+							<ul>
+								<li>Gleichwertig zweisprachig in Deutsch und Englisch</li>
+								<li>Lehrpersonen als Mentoren, mit individueller Förderung</li>
+								<li>Lernen, das in einem eigenen Ergebnis sichtbar wird</li>
+								<li>Clubs und Angebote über den Unterricht hinaus</li>
+								<li>Schulbusse ab Pfäffikon und Thalwil</li>
+							</ul>
+							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Primarschule besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+						</div>
 					</div>
-				</div>
-				<div class="panel split upper" role="tabpanel" id="panel_upper_school" aria-labelledby="tab_upper_school" hidden>
-					<figure><img src="https://julianbrasse.github.io/obs/32b4684f-373a-4861-8965-d5be4156980b.jpg" alt="Zwei Schüler im angeregten Gespräch an einem Tisch am Fenster" width="1065" height="1600" loading="lazy" /></figure>
-					<div class="stack">
-						<span class="label">Oberstufe · 10. bis 12. Klasse</span>
-						<h3>Der Weg an die <em>Universität.</em></h3>
-						<ul>
-							<li>Eidgenössische Matura oder IB Diploma</li>
-							<li>Individuelles Lerncoaching</li>
-							<li>Probeprüfungen unter Prüfungsbedingungen</li>
-							<li>96 % Matura-Erfolgsquote über fünf Jahre und ein IB-Durchschnitt von 35 Punkten (2026)</li>
-						</ul>
-						<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Oberstufe besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+					<div class="panel split middle-school" role="tabpanel" id="panel_middle_school" aria-labelledby="tab_middle_school" hidden>
+						<figure><img src="https://julianbrasse.github.io/obs/d3aed6b4-3e5f-44bc-8dc2-50411071fc78.jpg" alt="Eine Schülerin lächelt über ihrer Arbeit, im Vordergrund zwei Mitschüler" width="1065" height="1600" decoding="async" /></figure>
+						<div class="stack">
+							<span class="label">Mittelstufe · 7. bis 9. Klasse</span>
+							<h3>Eigene Träume. <em>Eigener Weg.</em></h3>
+							<ul>
+								<li>Ein persönlicher Coach und Lernen im eigenen Tempo</li>
+								<li>Sek und Gymi nebeneinander, unter einem Dach</li>
+								<li>Eidgenössische Matura oder IB Diploma, gewählt nach der 9. Klasse</li>
+								<li>Weltraumforschung, Meeresforschung, Film und mehr</li>
+								<li>Schulbusse ab Pfäffikon und Thalwil</li>
+							</ul>
+							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Mittelstufe besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+						</div>
+					</div>
+					<div class="panel split upper-school" role="tabpanel" id="panel_upper_school" aria-labelledby="tab_upper_school" hidden>
+						<figure><img src="https://julianbrasse.github.io/obs/32b4684f-373a-4861-8965-d5be4156980b.jpg" alt="Zwei Schüler im angeregten Gespräch an einem Tisch am Fenster" width="1065" height="1600" decoding="async" /></figure>
+						<div class="stack">
+							<span class="label">Oberstufe · 10. bis 12. Klasse</span>
+							<h3>Der Weg an die <em>Universität.</em></h3>
+							<ul>
+								<li>Eidgenössische Matura oder IB Diploma</li>
+								<li>Individuelles Lerncoaching</li>
+								<li>Probeprüfungen unter Prüfungsbedingungen</li>
+								<li>96 % Matura-Erfolgsquote über fünf Jahre und ein IB-Durchschnitt von 35 Punkten (2026)</li>
+							</ul>
+							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Oberstufe besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</section>
 		<section class="pathways">
 			<div class="wrap stack">
-				<p class="label">Zwei Wege</p>
-				<h2>Eidgenössische Matura oder <em>IB Diploma.</em></h2>
-				<p class="lead">Ein zweisprachiger Weg an Universitäten in der Schweiz und im Ausland.</p>
+				<p class="label reveal">Zwei Wege</p>
+				<h2 class="reveal">Eidgenössische Matura oder <em>IB Diploma.</em></h2>
+				<p class="lead reveal">Ein zweisprachiger Weg an Universitäten in der Schweiz und im Ausland.</p>
 				<div class="split cards">
-					<article class="stack">
+					<article class="stack reveal">
 						<h3>Zweisprachige eidgenössische Matura</h3>
 						<p class="muted">Direkter Zugang zu allen Schweizer Hochschulen, darunter ETH, EPFL, HSG und UZH.</p>
 						<p><span class="number">96 %</span> <span class="label">Erfolgsquote über fünf Jahre</span></p>
 					</article>
-					<article class="stack">
+					<article class="stack reveal">
 						<h3>IB Diploma Programme</h3>
 						<p class="muted">Von Universitäten weltweit anerkannt. Der weltweite Durchschnitt lag 2026 bei 30,88 Punkten.</p>
 						<p><span class="number">35</span> <span class="label">Punkte im Durchschnitt 2026</span></p>
@@ -646,10 +702,10 @@
 		</section>
 		<section class="visit">
 			<div class="wrap split">
-				<figure><img class="top" src="https://julianbrasse.github.io/obs/dd8c8aad-862f-40e4-8378-4e3236a352ce.jpg" alt="Zwei Jugendliche gehen im Gespräch durch einen Schulkorridor" width="1065" height="1600" loading="lazy" /></figure>
-				<div class="stack">
+				<figure class="reveal"><img class="top" src="https://julianbrasse.github.io/obs/dd8c8aad-862f-40e4-8378-4e3236a352ce.jpg" alt="Zwei Jugendliche gehen im Gespräch durch einen Schulkorridor" width="1065" height="1600" decoding="async" /></figure>
+				<div class="stack reveal">
 					<h2>Erleben Sie die OBS <em>selbst.</em></h2>
-					<p class="lead">Buchen Sie einen persönlichen Rundgang durch unseren Campus in Wollerau, lernen Sie einige unserer Lehrpersonen kennen und stellen Sie uns alle Fragen zum nächsten Schritt Ihres Kindes.</p>
+					<p class="lead">Buchen Sie einen persönlichen Rundgang durch unseren modernen, eigens für das Lernen gebauten Campus in Wollerau, lernen Sie einige unserer Lehrpersonen kennen und stellen Sie uns alle Fragen zum nächsten Schritt Ihres Kindes.</p>
 					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Rundgang buchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 					<dl>
 						<dt class="label">Telefon</dt>
@@ -672,27 +728,25 @@
 	</div>
 	<script>
 		document.querySelectorAll(`.obslp`).forEach((page) => {
-			const tabs = page.querySelectorAll(`.tab`);
+			const tabs = [...page.querySelectorAll(`.tab`)];
 			const phase_select = page.querySelector(`.phase-select`);
 
+			// Unknown or missing phase falls back to the first stage
 			function showPhase(phase, update_url) {
-				const selected = [...tabs].find((tab) => tab.value === phase);
-
-				if (!selected) {
-					return;
-				}
+				const selected = tabs.find((tab) => tab.value === phase) ?? tabs[0];
 
 				tabs.forEach((tab) => {
 					tab.setAttribute(`aria-selected`, tab === selected);
+					tab.tabIndex = tab === selected ? 0 : -1;
 					page.querySelector(`#${tab.getAttribute(`aria-controls`)}`).hidden = tab !== selected;
 				});
 
-				phase_select.value = phase;
-				phase_select.className = `phase-select ${selected.classList[1]}`;
+				phase_select.value = selected.value;
+				phase_select.className = `phase-select ${selected.value}`;
 
 				if (update_url) {
 					const url = new URL(location.href);
-					url.searchParams.set(`phase`, phase);
+					url.searchParams.set(`phase`, selected.value);
 					history.replaceState(null, ``, url);
 				}
 			}
@@ -701,9 +755,36 @@
 				tab.addEventListener(`click`, () => showPhase(tab.value, true));
 			});
 
+			// Arrow keys move between tabs (wrapping round), Home and End jump to the first and last
+			page.querySelector(`.tabs`).addEventListener(`keydown`, (event) => {
+				const current = tabs.indexOf(document.activeElement);
+				const next = { ArrowLeft: current - 1, ArrowRight: current + 1, Home: 0, End: -1 }[event.key];
+
+				if (next === undefined || current === -1) {
+					return;
+				}
+
+				event.preventDefault();
+				const tab = tabs.at(next % tabs.length);
+				tab.focus();
+				showPhase(tab.value, true);
+			});
+
 			phase_select.addEventListener(`change`, () => showPhase(phase_select.value, true));
 
 			showPhase(new URLSearchParams(location.search).get(`phase`), false);
+
+			// Slide up: elements that come into view together are staggered by 0.1s, each runs once
+			const observer = new IntersectionObserver((entries) => {
+				entries.filter((entry) => entry.isIntersecting).forEach((entry, i) => {
+					entry.target.style.setProperty(`--delay`, `${Math.min(i, 4) / 10}s`);
+					entry.target.classList.add(`shown`);
+					observer.unobserve(entry.target);
+				});
+			}, { rootMargin: `0px 0px -10% 0px` });
+
+			page.querySelectorAll(`.reveal`).forEach((element) => observer.observe(element));
+			page.classList.add(`animate`);
 		});
 	</script>
 </body>
