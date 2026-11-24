@@ -4,22 +4,23 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="robots" content="noindex, nofollow" />
-	<title>Obersee Bilingual School | Eidgenössische Matura oder IB Diploma</title>
-	<meta name="description" content="Zweisprachige Tagesschule auf Deutsch und Englisch in Wollerau, von der Babycare bis zur Oberstufe. Eidgenössische Matura oder IB Diploma. Rundgang buchen." />
+	<title>Obersee Bilingual School — Eidgenössische Matura oder IB Diploma</title>
+	<meta name="description" content="Zweisprachige Tagesschule auf Deutsch und Englisch in Wollerau, von der Babycare bis zur Oberstufe. Eidgenössische Matura oder IB Diploma. Führung buchen." />
 	<meta property="og:type" content="website" />
 	<meta property="og:locale" content="de_CH" />
 	<meta property="og:site_name" content="Obersee Bilingual School" />
-	<meta property="og:title" content="Obersee Bilingual School | Eidgenössische Matura oder IB Diploma" />
-	<meta property="og:description" content="Zweisprachige Tagesschule in Wollerau, von der Babycare bis zur Oberstufe. Rundgang buchen." />
+	<meta property="og:title" content="Obersee Bilingual School — Eidgenössische Matura oder IB Diploma" />
+	<meta property="og:description" content="Zweisprachige Tagesschule in Wollerau, von der Babycare bis zur Oberstufe. Führung buchen." />
 	<meta property="og:image" content="https://julianbrasse.github.io/obs/1818047a-9d3b-4b7a-a35d-ffb189462e6c.jpg" />
 	<meta property="og:image:width" content="1065" />
 	<meta property="og:image:height" content="1600" />
 	<meta property="og:image:alt" content="Eine Schülerin hält im Schullabor ein Becherglas mit violetter Flüssigkeit hoch" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%22-15%20-30%20250%20250%22%3E%3Cpath%20fill%3D%22%23b5bd00%22%20d%3D%22M%200%200%20S%2089%2025%20131%2082%20C%20167%20131%20134%20168%20134%20168%20S%20149%20119%20114%2079%20C%2068%2025%200%200%200%200%22/%3E%3Cpath%20fill%3D%22%2300a7b5%22%20d%3D%22M%20228%2045%20S%20140%2068%20101%20121%20C%2061%20175%2096%20200%2096%20200%20S%2088%20150%20121%20113%20C%20167%2062%20228%2045%20228%2045%22/%3E%3Cpath%20fill%3D%22%23004680%22%20d%3D%22M%20140%2040%20C%20148%2040%20154%2047%20154%2056%20S%20148%2072%20140%2072%20S%20126%2065%20126%2056%20S%20132%2040%20140%2040%22/%3E%3C/svg%3E" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&amp;family=Hanken+Grotesk:wght@400;600&amp;display=block" />
 	<style>
-		@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Hanken+Grotesk:wght@400;600&display=swap");
-
 		/* Order: @import, :root, *, Elements, Classes, IDs, Attributes, Selectors, Nesting Selectors, Pseudo-Elements, Pseudo-Classes, At-Rules */
 		/* Order: Position, Size, Shape, Color, Function */
 
@@ -40,12 +41,12 @@
 			--serif: "Newsreader", Georgia, serif;
 			--sans: "Hanken Grotesk", Arial, sans-serif;
 
-			--size-s: 14px;
-			--size-m: 16px;
-			--size-l: 20px;
-			--size-xl: 28px;
-			--display-s: clamp(32px, 4vw, 48px);
-			--display-l: clamp(44px, 6vw, 80px);
+			--size-s: 0.875rem;
+			--size-m: 1rem;
+			--size-l: 1.25rem;
+			--size-xl: 1.75rem;
+			--display-s: clamp(2rem, 4vw, 3rem);
+			--display-l: clamp(2.75rem, 6vw, 5rem);
 
 			--space-s: 8px;
 			--space-m: 24px;
@@ -58,8 +59,18 @@
 
 			overflow-x: clip;
 			font: var(--size-m)/1.55 var(--sans);
+			text-wrap: pretty;
 			color: var(--ink);
 			background: var(--white);
+			/* Hidden until the script has the fonts (.ready); shows after 3s on its own if the script never runs */
+			opacity: 0;
+			animation: appear 0s 3s forwards;
+			transition: opacity var(--speed);
+
+			&.ready {
+				opacity: 1;
+				animation: none;
+			}
 
 			& img {
 				display: block;
@@ -122,7 +133,7 @@
 
 			& .wrap {
 				max-width: 1180px;
-				margin: 0px auto;
+				margin-inline: auto;
 				padding-inline: max(var(--space-m), env(safe-area-inset-left)) max(var(--space-m), env(safe-area-inset-right));
 			}
 
@@ -172,8 +183,17 @@
 				background: var(--teal) linear-gradient(90deg, var(--teal) 50%, var(--navy)) 0% 0% / 200% 100%;
 				transition: background-position var(--speed);
 
-				& svg {
+				/* Arrow drawn in the text colour through a mask, so it needs no SVG in the markup */
+				&::after {
+					content: "";
 					width: 14px;
+					aspect-ratio: 1;
+					background: currentColor;
+					mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 11 11 3M5 3h6v6' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center / contain no-repeat;
+				}
+
+				&:is(:hover, :focus-visible) {
+					background-position: 100% 0%;
 				}
 			}
 
@@ -216,6 +236,10 @@
 
 				& .button {
 					padding: 10px 16px;
+
+					&::after {
+						content: none;
+					}
 				}
 			}
 
@@ -227,23 +251,27 @@
 				display: none;
 			}
 
+			/* Intro (hero, facts and Why OBS): soft blue fading to white, ending above the stages */
+			& .intro {
+				background: linear-gradient(var(--soft-blue), var(--white));
+			}
+
+			/* Hero: the photo is a blob, like the obs.schule header, and slowly changes shape (see @keyframes blob) */
+			& .hero figure {
+				border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+			}
+
 			/* Facts */
 			& .facts {
-				border-block: var(--line);
-
-				& ul {
-					display: grid;
-					grid-template-columns: repeat(4, minmax(0px, 1fr));
-				}
+				display: grid;
+				grid-column: 1 / -1;
+				grid-template-columns: repeat(4, minmax(0px, 1fr));
+				gap: var(--space-m);
 
 				& li {
 					padding: var(--space-m);
-					border-left: var(--line);
-				}
-
-				& li:first-child {
-					padding-left: 0px;
-					border: none;
+					border-radius: var(--radius);
+					background: var(--white);
 				}
 			}
 
@@ -253,7 +281,7 @@
 
 				& article {
 					padding-top: var(--space-m);
-					border-top: 3px solid var(--ink);
+					border-top: 3px solid var(--teal);
 				}
 			}
 
@@ -404,11 +432,6 @@
 				}
 			}
 
-			& .button:hover,
-			& .button:focus-visible {
-				background-position: 100% 0%;
-			}
-
 			& :focus-visible {
 				outline: 3px solid var(--navy);
 				outline-offset: 3px;
@@ -433,22 +456,8 @@
 					padding-top: var(--space-m);
 				}
 
-				& .facts ul {
+				& .facts {
 					grid-template-columns: repeat(2, minmax(0px, 1fr));
-					padding-inline: 0px;
-				}
-
-				& .facts li,
-				& .facts li:first-child {
-					padding: var(--space-m);
-				}
-
-				& .facts li:nth-child(3) {
-					border-left: none;
-				}
-
-				& .facts li:nth-child(n + 3) {
-					border-top: var(--line);
 				}
 
 				& figure,
@@ -487,8 +496,28 @@
 			}
 		}
 
+		@keyframes blob {
+			33% {
+				border-radius: 64% 36% 46% 54% / 57% 35% 65% 43%;
+			}
+
+			66% {
+				border-radius: 38% 62% 35% 65% / 46% 62% 38% 54%;
+			}
+
+			100% {
+				border-radius: 55% 45% 58% 42% / 36% 52% 48% 64%;
+			}
+		}
+
+		@keyframes appear {
+			to {
+				opacity: 1;
+			}
+		}
+
 		/* Slide up: sections on scroll (.reveal) and the stage panel each time it is shown.
-		   Only once the script has started (.animate), never for reduced motion or print. */
+		   Only once the page is ready, never for reduced motion or print. */
 		@keyframes slide-up {
 			from {
 				opacity: 0;
@@ -497,7 +526,11 @@
 		}
 
 		@media screen and (prefers-reduced-motion: no-preference) {
-			.obslp.animate {
+			.obslp.ready {
+				& .hero figure {
+					animation: blob 18s ease-in-out infinite alternate;
+				}
+
 				& .reveal:not(.shown) {
 					opacity: 0;
 				}
@@ -525,68 +558,68 @@
 	<div class="obslp" lang="de-CH" id="obslp">
 		<header class="bar">
 			<div class="wrap">
-				<svg class="logo" viewBox="0 0 425 200" role="img" aria-label="Obersee Bilingual School"><path fill="#b5bd00" d="M 0 0 S 89 25 131 82 C 167 131 134 168 134 168 S 149 119 114 79 C 68 25 0 0 0 0"/><path fill="#00a7b5" d="M 228 45 S 140 68 101 121 C 61 175 96 200 96 200 S 88 150 121 113 C 167 62 228 45 228 45"/><path fill="#004680" d="M 140 40 C 148 40 154 47 154 56 S 148 72 140 72 S 126 65 126 56 S 132 40 140 40"/><path fill="#ff8200" d="M 199 88 Q 160 88 160 123 Q 160 158 199 158 H 211 Q 250 158 250 123 Q 250 88 211 88 Z M 211 98 Q 238 98 238 123 Q 238 148 211 148 H 199 Q 172 148 172 123 Q 172 98 199 98 Z"/><path fill="#ff8200" d="M 308 88 Q 337 88 337 108 Q 337 120 325 123 Q 337 126 337 138 Q 337 158 308 158 H 269 Q 263 158 263 153 V 93 Q 263 88 269 88 Z M 275 119 H 308 Q 325 119 325 108 Q 325 98 308 98 H 276 Q 275 98 275 99 Z M 275 127 V 147 Q 275 148 276 148 H 308 Q 325 148 325 138 Q 325 127 308 127 Z"/><path fill="#ff8200" d="M 374 88 C 354 88 348 96 348 108 C 348 118 354 128 374 128 H 399 Q 413 128 413 138 Q 413 148 399 148 H 350 V 158 H 399 C 419 158 425 150 425 138 C 425 128 419 118 399 118 H 374 Q 360 118 360 108 Q 360 98 374 98 H 418 V 88 Z"/></svg>
+				<svg class="logo" viewBox="0 0 425 200" role="img" aria-label="Obersee Bilingual School"><g id="obs_logo"><path fill="#b5bd00" d="M 0 0 S 89 25 131 82 C 167 131 134 168 134 168 S 149 119 114 79 C 68 25 0 0 0 0"/><path fill="#00a7b5" d="M 228 45 S 140 68 101 121 C 61 175 96 200 96 200 S 88 150 121 113 C 167 62 228 45 228 45"/><path fill="#004680" d="M 140 40 C 148 40 154 47 154 56 S 148 72 140 72 S 126 65 126 56 S 132 40 140 40"/><path fill="#ff8200" d="M 199 88 Q 160 88 160 123 Q 160 158 199 158 H 211 Q 250 158 250 123 Q 250 88 211 88 Z M 211 98 Q 238 98 238 123 Q 238 148 211 148 H 199 Q 172 148 172 123 Q 172 98 199 98 Z"/><path fill="#ff8200" d="M 308 88 Q 337 88 337 108 Q 337 120 325 123 Q 337 126 337 138 Q 337 158 308 158 H 269 Q 263 158 263 153 V 93 Q 263 88 269 88 Z M 275 119 H 308 Q 325 119 325 108 Q 325 98 308 98 H 276 Q 275 98 275 99 Z M 275 127 V 147 Q 275 148 276 148 H 308 Q 325 148 325 138 Q 325 127 308 127 Z"/><path fill="#ff8200" d="M 374 88 C 354 88 348 96 348 108 C 348 118 354 128 374 128 H 399 Q 413 128 413 138 Q 413 148 399 148 H 350 V 158 H 399 C 419 158 425 150 425 138 C 425 128 419 118 399 118 H 374 Q 360 118 360 108 Q 360 98 374 98 H 418 V 88 Z"/></g></svg>
 				<nav aria-label="Page">
 					<a class="link" href="discover" lang="en-GB" aria-label="English"><span class="full">English</span><span class="short">EN</span></a>
-					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Rundgang buchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Führung buchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 				</nav>
 			</div>
 		</header>
-		<section class="hero">
-			<div class="wrap split">
-				<div class="stack">
-					<p class="label">Obersee Bilingual School · Wollerau</p>
-					<h1><em>Zweisprachig</em> von den ersten Schritten bis zur Universität.</h1>
-					<p class="lead">Eine Tagesschule auf Deutsch und Englisch von der Babycare bis zur Oberstufe, mit zwei Wegen an die Universität: der eidgenössischen Matura oder dem IB Diploma.</p>
-					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Rundgang buchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+		<div class="intro">
+			<section class="hero">
+				<div class="wrap split">
+					<div class="stack">
+						<p class="label">Obersee Bilingual School · Wollerau</p>
+						<h1><em>Zweisprachig</em> von den ersten Schritten bis zur Universität.</h1>
+						<p class="lead">Eine Tagesschule auf Deutsch und Englisch von der Babycare bis zur Oberstufe, mit zwei Wegen an die Universität: der eidgenössischen Matura oder dem IB Diploma.</p>
+						<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Führung buchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+					</div>
+					<figure><img src="https://julianbrasse.github.io/obs/1818047a-9d3b-4b7a-a35d-ffb189462e6c.jpg" alt="Eine Schülerin hält im Schullabor ein Becherglas mit violetter Flüssigkeit hoch" width="1065" height="1600" fetchpriority="high" /></figure>
+					<ul class="facts">
+						<li class="reveal">
+							<p><span class="number">7:1</span></p>
+							<p class="muted">Lernende pro Lehrperson, für kleine Gruppen und persönliche Begleitung.</p>
+						</li>
+						<li class="reveal">
+							<p><span class="number">41</span> <span class="label">Nationen</span></p>
+							<p class="muted">Schweizer und internationale Familien, Seite an Seite.</p>
+						</li>
+						<li class="reveal">
+							<p><span class="number">50/50</span></p>
+							<p class="muted">Deutsch und Englisch zu gleichen Teilen.</p>
+						</li>
+						<li class="reveal">
+							<p><span class="number">30+</span> <span class="label">Clubs</span></p>
+							<p class="muted">Clubs und Aktivitäten über den Unterricht hinaus.</p>
+						</li>
+					</ul>
 				</div>
-				<figure><img src="https://julianbrasse.github.io/obs/1818047a-9d3b-4b7a-a35d-ffb189462e6c.jpg" alt="Eine Schülerin hält im Schullabor ein Becherglas mit violetter Flüssigkeit hoch" width="1065" height="1600" fetchpriority="high" /></figure>
-			</div>
-		</section>
-		<div class="facts">
-			<ul class="wrap">
-				<li class="reveal">
-					<p><span class="number">7:1</span></p>
-					<p class="muted">Lernende pro Lehrperson, für kleine Gruppen und persönliche Begleitung.</p>
-				</li>
-				<li class="reveal">
-					<p><span class="number">41</span> <span class="label">Nationen</span></p>
-					<p class="muted">Schweizer und internationale Familien, Seite an Seite.</p>
-				</li>
-				<li class="reveal">
-					<p><span class="number">50/50</span></p>
-					<p class="muted">Deutsch und Englisch zu gleichen Teilen.</p>
-				</li>
-				<li class="reveal">
-					<p><span class="number">30+</span> <span class="label">Clubs</span></p>
-					<p class="muted">Clubs und Aktivitäten über den Unterricht hinaus.</p>
-				</li>
-			</ul>
+			</section>
+			<section class="why">
+				<div class="wrap stack">
+					<p class="label reveal">Warum die OBS</p>
+					<h2 class="reveal">Eine Schule, von der Babycare bis zur <em>Oberstufe.</em></h2>
+					<div class="split cards">
+						<article class="stack reveal">
+							<h3>Zweisprachig von Anfang an</h3>
+							<p>Deutsch und Englisch zu gleichen Teilen, von der Babycare ab 3 Monaten bis zur Oberstufe. So wachsen Kinder in beiden Sprachen selbstverständlich auf.</p>
+						</article>
+						<article class="stack reveal">
+							<h3>Jedes Kind wird gesehen</h3>
+							<p>Kleine Gruppen, Lehrpersonen als Mentorinnen und Mentoren und ab der Mittelstufe ein persönlicher Coach. Mit Unterstützung, wo ein Kind sie braucht, und Förderung, wo es weiter will.</p>
+						</article>
+						<article class="stack reveal">
+							<h3>Zwei Wege, eine Schule</h3>
+							<p>Lehrplan 21 bis zur 9. Klasse, Sek und Gymi unter einem Dach. Danach die eidgenössische Matura oder das IB Diploma, ohne Schulwechsel.</p>
+						</article>
+						<article class="stack reveal">
+							<h3>Kompetenzen für morgen</h3>
+							<p>STEAMS Innovation Academy, OBS Media Academy und OBS Space Agency: Weltraumforschung, Meeresforschung, Film und mehr.</p>
+						</article>
+					</div>
+				</div>
+			</section>
 		</div>
-		<section class="why">
-			<div class="wrap stack">
-				<p class="label reveal">Warum die OBS</p>
-				<h2 class="reveal">Eine Schule, von der Babycare bis zur <em>Oberstufe.</em></h2>
-				<div class="split cards">
-					<article class="stack reveal">
-						<h3>Zweisprachig von Anfang an</h3>
-						<p>Deutsch und Englisch zu gleichen Teilen, von der Babycare ab 3 Monaten bis zur Oberstufe. So wachsen Kinder in beiden Sprachen selbstverständlich auf.</p>
-					</article>
-					<article class="stack reveal">
-						<h3>Jedes Kind wird gesehen</h3>
-						<p>Kleine Gruppen, Lehrpersonen als Mentorinnen und Mentoren und ab der Mittelstufe ein persönlicher Coach. Mit Unterstützung, wo ein Kind sie braucht, und Förderung, wo es weiter will.</p>
-					</article>
-					<article class="stack reveal">
-						<h3>Zwei Wege, eine Schule</h3>
-						<p>Lehrplan 21 bis zur 9. Klasse, Sek und Gymi unter einem Dach. Danach die eidgenössische Matura oder das IB Diploma, ohne Schulwechsel.</p>
-					</article>
-					<article class="stack reveal">
-						<h3>Kompetenzen für morgen</h3>
-						<p>STEAMS Innovation Academy, OBS Media Academy und OBS Space Agency: Weltraumforschung, Meeresforschung, Film und mehr.</p>
-					</article>
-				</div>
-			</div>
-		</section>
 		<section class="stages" id="stages">
 			<div class="wrap stack">
 				<p class="label reveal">Jede Stufe</p>
@@ -617,7 +650,7 @@
 								<li>Ein kleines, liebevolles Umfeld</li>
 								<li>Betreuung von 7.15 bis 18.30 Uhr</li>
 							</ul>
-							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Babycare besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Babycare besuchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 						</div>
 					</div>
 					<div class="panel split early-years" role="tabpanel" id="panel_early_years" aria-labelledby="tab_early_years" hidden>
@@ -631,7 +664,7 @@
 								<li>Waldtage, Ausflüge und eigene Gartenbeete</li>
 								<li>Betreuung von 7.15 bis 18.30 Uhr</li>
 							</ul>
-							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Vorschule & Kiga besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Vorschule & Kiga besuchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 						</div>
 					</div>
 					<div class="panel split primary" role="tabpanel" id="panel_primary" aria-labelledby="tab_primary" hidden>
@@ -646,7 +679,7 @@
 								<li>Clubs und Angebote über den Unterricht hinaus</li>
 								<li>Schulbusse ab Pfäffikon und Thalwil</li>
 							</ul>
-							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Primarschule besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Primarschule besuchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 						</div>
 					</div>
 					<div class="panel split middle-school" role="tabpanel" id="panel_middle_school" aria-labelledby="tab_middle_school" hidden>
@@ -661,7 +694,7 @@
 								<li>Weltraumforschung, Meeresforschung, Film und mehr</li>
 								<li>Schulbusse ab Pfäffikon und Thalwil</li>
 							</ul>
-							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Mittelstufe besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Mittelstufe besuchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 						</div>
 					</div>
 					<div class="panel split upper-school" role="tabpanel" id="panel_upper_school" aria-labelledby="tab_upper_school" hidden>
@@ -675,7 +708,7 @@
 								<li>Probeprüfungen unter Prüfungsbedingungen</li>
 								<li>96 % Matura-Erfolgsquote über fünf Jahre und ein IB-Durchschnitt von 35 Punkten (2026)</li>
 							</ul>
-							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Oberstufe besuchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Oberstufe besuchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 						</div>
 					</div>
 				</div>
@@ -705,8 +738,8 @@
 				<figure class="reveal"><img class="top" src="https://julianbrasse.github.io/obs/dd8c8aad-862f-40e4-8378-4e3236a352ce.jpg" alt="Zwei Jugendliche gehen im Gespräch durch einen Schulkorridor" width="1065" height="1600" decoding="async" /></figure>
 				<div class="stack reveal">
 					<h2>Erleben Sie die OBS <em>selbst.</em></h2>
-					<p class="lead">Buchen Sie einen persönlichen Rundgang durch unseren modernen, eigens für das Lernen gebauten Campus in Wollerau, lernen Sie einige unserer Lehrpersonen kennen und stellen Sie uns alle Fragen zum nächsten Schritt Ihres Kindes.</p>
-					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Rundgang buchen <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
+					<p class="lead">Buchen Sie eine persönliche Führung durch unseren modernen, eigens für das Lernen gebauten Campus in Wollerau, lernen Sie einige unserer Lehrpersonen kennen und stellen Sie uns alle Fragen zum nächsten Schritt Ihres Kindes.</p>
+					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Führung buchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 					<dl>
 						<dt class="label">Telefon</dt>
 						<dd><a class="link" href="tel:+41555113800">+41 55 511 38 00</a></dd>
@@ -720,7 +753,7 @@
 		</section>
 		<footer>
 			<div class="wrap">
-				<svg class="logo" viewBox="0 0 425 200" role="img" aria-label="Obersee Bilingual School"><path fill="#b5bd00" d="M 0 0 S 89 25 131 82 C 167 131 134 168 134 168 S 149 119 114 79 C 68 25 0 0 0 0"/><path fill="#00a7b5" d="M 228 45 S 140 68 101 121 C 61 175 96 200 96 200 S 88 150 121 113 C 167 62 228 45 228 45"/><path fill="#004680" d="M 140 40 C 148 40 154 47 154 56 S 148 72 140 72 S 126 65 126 56 S 132 40 140 40"/><path fill="#ff8200" d="M 199 88 Q 160 88 160 123 Q 160 158 199 158 H 211 Q 250 158 250 123 Q 250 88 211 88 Z M 211 98 Q 238 98 238 123 Q 238 148 211 148 H 199 Q 172 148 172 123 Q 172 98 199 98 Z"/><path fill="#ff8200" d="M 308 88 Q 337 88 337 108 Q 337 120 325 123 Q 337 126 337 138 Q 337 158 308 158 H 269 Q 263 158 263 153 V 93 Q 263 88 269 88 Z M 275 119 H 308 Q 325 119 325 108 Q 325 98 308 98 H 276 Q 275 98 275 99 Z M 275 127 V 147 Q 275 148 276 148 H 308 Q 325 148 325 138 Q 325 127 308 127 Z"/><path fill="#ff8200" d="M 374 88 C 354 88 348 96 348 108 C 348 118 354 128 374 128 H 399 Q 413 128 413 138 Q 413 148 399 148 H 350 V 158 H 399 C 419 158 425 150 425 138 C 425 128 419 118 399 118 H 374 Q 360 118 360 108 Q 360 98 374 98 H 418 V 88 Z"/></svg>
+				<svg class="logo" viewBox="0 0 425 200" role="img" aria-label="Obersee Bilingual School"><use href="#obs_logo" /></svg>
 				<address class="muted">Obersee Bilingual School AG<br />Sihleggstrasse 9, 8832 Wollerau SZ<br /><a href="tel:+41555113800">+41 55 511 38 00</a> · <a href="mailto:admissions@obs.school">admissions@obs.school</a></address>
 				<a class="link" href="https://obs.schule/" target="_blank" rel="noopener">Zu unserer Website</a>
 			</div>
@@ -783,8 +816,14 @@
 				});
 			}, { rootMargin: `0px 0px -10% 0px` });
 
-			page.querySelectorAll(`.reveal`).forEach((element) => observer.observe(element));
-			page.classList.add(`animate`);
+			// Show the page and start the animations once the fonts are in (or after 3s, so a slow font never blocks it)
+			const fonts = [`300 1em Newsreader`, `italic 300 1em Newsreader`, `400 1em Newsreader`, `400 1em "Hanken Grotesk"`, `600 1em "Hanken Grotesk"`];
+			const timeout = new Promise((resolve) => setTimeout(resolve, 3000));
+
+			Promise.race([Promise.all(fonts.map((font) => document.fonts.load(font))), timeout]).finally(() => {
+				page.classList.add(`ready`);
+				page.querySelectorAll(`.reveal`).forEach((element) => observer.observe(element));
+			});
 		});
 	</script>
 </body>
