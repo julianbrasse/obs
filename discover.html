@@ -773,4 +773,104 @@
 					</article>
 					<article class="stack reveal">
 						<h3>Bilingual IB Diploma Programme</h3>
-						<p class="muted">The International Baccalaureate, recognised by universities around the world. In 2026,
+						<p class="muted">The International Baccalaureate, recognised by universities around the world. In 2026, 94.1% of our students passed, and the world average was 30.88 points.</p>
+						<p><span class="number">35</span> <span class="label">average points in 2026</span></p>
+					</article>
+				</div>
+			</div>
+		</section>
+		<section>
+			<div class="wrap split">
+				<figure class="reveal"><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=1200" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=600 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=900 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=1200 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Two students walking and talking in a school corridor" width="1200" height="1800" class="top" decoding="async" /></figure>
+				<div class="stack reveal">
+					<h2>See OBS <em>for yourself.</em></h2>
+					<p class="lead">Book a personal tour of our modern, purpose-built campus in Wollerau, meet some of our teachers and ask us anything about your child’s next step.</p>
+					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Book a tour<span class="sr-only"> (opens in a new tab)</span></a>
+					<dl>
+						<dt class="label">Phone</dt>
+						<dd><a class="link" href="tel:+41555113800">+41 55 511 38 00</a></dd>
+						<dt class="label">Email</dt>
+						<dd><a class="link" href="mailto:admissions@obs.school">admissions@obs.school</a></dd>
+						<dt class="label">Address</dt>
+						<dd>Obersee Bilingual School AG<br />Sihleggstrasse 9<br />8832 Wollerau SZ<br /><a class="link" href="https://www.google.com/maps/search/?api=1&query=Sihleggstrasse+9+8832+Wollerau" target="_blank" rel="noopener">Open in Maps</a></dd>
+					</dl>
+				</div>
+			</div>
+		</section>
+		<footer>
+			<div class="wrap">
+				<svg class="logo" viewBox="0 0 425 200" role="img" aria-label="Obersee Bilingual School"><use href="#obs_logo" /></svg>
+				<p class="muted">IB World School · NEASC accredited · Lehrplan 21<br />Obersee Bilingual School AG · <a href="https://www.obs.schule/en/privacy-policy/" target="_blank" rel="noopener">Privacy policy</a></p>
+				<a class="link" href="https://obs.schule/en/" target="_blank" rel="noopener">Visit our website</a>
+			</div>
+		</footer>
+	</div>
+	<script>
+		document.querySelectorAll(`.obslp`).forEach((page) => {
+			const tabs = [...page.querySelectorAll(`.tab`)];
+			const phase_select = page.querySelector(`.phase-select`);
+
+			// Unknown or missing phase falls back to the first stage
+			function showPhase(phase, update_url) {
+				const selected = tabs.find((tab) => tab.value === phase) ?? tabs[0];
+
+				tabs.forEach((tab) => {
+					tab.setAttribute(`aria-selected`, tab === selected);
+					tab.tabIndex = tab === selected ? 0 : -1;
+					page.querySelector(`#${tab.getAttribute(`aria-controls`)}`).hidden = tab !== selected;
+				});
+
+				phase_select.value = selected.value;
+				phase_select.className = `phase-select ${selected.value}`;
+
+				if (update_url) {
+					const url = new URL(location.href);
+					url.searchParams.set(`phase`, selected.value);
+					history.replaceState(null, ``, url);
+				}
+			}
+
+			tabs.forEach((tab) => {
+				tab.addEventListener(`click`, () => showPhase(tab.value, true));
+			});
+
+			// Arrow keys move between tabs (wrapping round), Home and End jump to the first and last
+			page.querySelector(`.tabs`).addEventListener(`keydown`, (event) => {
+				const current = tabs.indexOf(document.activeElement);
+				const next = { ArrowLeft: current - 1, ArrowRight: current + 1, Home: 0, End: -1 }[event.key];
+
+				if (next === undefined || current === -1) {
+					return;
+				}
+
+				event.preventDefault();
+				const tab = tabs.at(next % tabs.length);
+				tab.focus();
+				showPhase(tab.value, true);
+			});
+
+			phase_select.addEventListener(`change`, () => showPhase(phase_select.value, true));
+
+			showPhase(new URLSearchParams(location.search).get(`phase`), false);
+
+			// Slide up: elements that come into view together are staggered by 0.1s, each runs once
+			const observer = new IntersectionObserver((entries) => {
+				entries.filter((entry) => entry.isIntersecting).forEach((entry, i) => {
+					entry.target.style.setProperty(`--delay`, `${Math.min(i, 4) / 10}s`);
+					entry.target.classList.add(`shown`);
+					observer.unobserve(entry.target);
+				});
+			}, { rootMargin: `0px 0px -10% 0px` });
+
+			// Show the page and start the animations once the fonts are in (or after 3s, so a slow font never blocks it)
+			const fonts = [`300 1em Newsreader`, `italic 300 1em Newsreader`, `400 1em Newsreader`, `400 1em "Hanken Grotesk"`, `600 1em "Hanken Grotesk"`];
+			const timeout = new Promise((resolve) => setTimeout(resolve, 3000));
+
+			Promise.race([Promise.all(fonts.map((font) => document.fonts.load(font))), timeout]).finally(() => {
+				page.classList.add(`ready`);
+				page.querySelectorAll(`.reveal`).forEach((element) => observer.observe(element));
+			});
+		});
+	</script>
+</body>
+</html>
