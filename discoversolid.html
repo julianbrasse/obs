@@ -287,20 +287,22 @@
 				display: none;
 			}
 
-			/* Hero: the photo is a blob, like the obs.schule header, and slowly changes shape (see @keyframes blob) */
+			/* Intro (hero, facts and Why OBS): teal fading to white, ending above the stages */
 			& .hero {
 				background: var(--teal);
 			}
 
 			& .hero .button {
-				background-color: none;
-				border: 2px solid var(--white;
+				background: transparent;
+				color: var(--white);
+				border: 2px solid white;
 			}
 
 			& .hero .stack {
 				color: var(--white);
 			}
 
+			/* Hero: the photo is a blob, like the obs.schule header, and slowly changes shape (see @keyframes blob) */
 			& .hero figure {
 				border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
 			}
