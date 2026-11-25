@@ -64,20 +64,20 @@
 
 		.obslp {
 			--white: #fff;
-			--ink: #3d3935;
-			--grey: #75787b;
-			--rule: #d9d9d6;
-			--teal: #007d8a;
-			--light-teal: #00a7b5;
-			--soft-teal: #b1e4e3;
-			--navy: #004680;
-			--soft-blue: #b9d9eb;
+			--dark-gray: #3d3935;
+			--cool-gray: #75787b;
+			--light-gray: #d9d9d6;
+			--teal: #00a7b5;
+			--dark-teal: #007d8a;
+			--light-teal: #b1e4e3;
 			--orange: #ff8200;
-			--orange-soft: #fecb8b;
+			--light-orange: #fecb8b;
+			--green: #b5bd00;
+			--light-green: #e9ec6b;
+			--navy: #004680;
+			--light-navy: #b9d9eb;
 			--purple: #753bbd;
-			--purple-soft: #d7c6e6;
-			--lime: #b5bd00;
-			--lime-soft: #e9ec6b;
+			--light-purple: #d7c6e6;
 
 			--serif: "Newsreader", Georgia, serif;
 			--sans: "Hanken Grotesk", Arial, sans-serif;
@@ -95,15 +95,15 @@
 			--space-l: 48px;
 			--space-xl: 72px;
 
-			--line: 1px solid var(--rule);
+			--line: 1px solid var(--light-gray);
 			--radius: 5px;
 			--speed: 0.35s;
-			--speed-fast: 0.15s;
+			--speed-short: 0.15s;
 
 			overflow-x: clip;
-			font: var(--size-m)/1.55 var(--sans);
+			font: var(--size-m)/1.5 var(--sans);
 			text-wrap: pretty;
-			color: var(--ink);
+			color: var(--dark-gray);
 			background: var(--white);
 
 			& img {
@@ -161,7 +161,7 @@
 				isolation: isolate;
 				aspect-ratio: 4 / 5;
 				border-radius: var(--radius);
-				background: var(--rule);
+				background: var(--light-gray);
 			}
 
 			& .wrap {
@@ -194,11 +194,10 @@
 			& .muted {
 				font-weight: 400;
 				font-size: var(--size-s);
-				color: var(--grey);
+				color: var(--cool-gray);
 			}
 
 			& .lead {
-				max-width: 36ch;
 				font-size: var(--size-l);
 			}
 
@@ -213,7 +212,7 @@
 				text-decoration: none;
 				color: var(--white);
 				border-radius: var(--radius);
-				background: var(--teal) linear-gradient(90deg, var(--teal) 50%, var(--navy)) 0% 0% / 200% 100%;
+				background: var(--dark-teal) linear-gradient(90deg, var(--dark-teal) 50%, var(--navy)) 0% 0% / 200% 100%;
 				transition: background-position var(--speed);
 
 				/* Arrow drawn in the text colour through a mask, so it needs no SVG in the markup */
@@ -233,10 +232,10 @@
 			& .link {
 				text-decoration: none;
 				border-bottom: var(--line);
-				transition: border-color var(--speed-fast);
+				transition: border-color var(--speed-short);
 
 				&:hover {
-					border-color: var(--ink);
+					border-color: var(--dark-gray);
 				}
 			}
 
@@ -287,7 +286,7 @@
 
 			/* Hero: solid teal, white text */
 			& .hero {
-				background: var(--teal);
+				background: var(--dark-teal);
 
 				& .stack {
 					color: var(--white);
@@ -326,18 +325,18 @@
 
 				& article {
 					padding-top: var(--space-m);
-					border-top: 3px solid var(--teal);
+					border-top: 3px solid var(--dark-teal);
 				}
 			}
 
 			/* Teal section with white text; the cards keep the dark text */
 			& .pathways {
 				color: var(--white);
-				background: var(--teal);
+				background: var(--dark-teal);
 
 				& article {
 					padding: var(--space-m);
-					color: var(--ink);
+					color: var(--dark-gray);
 					border: none;
 					border-radius: var(--radius);
 					background: var(--white);
@@ -352,32 +351,32 @@
 			/* Stages */
 			& .babycare {
 				--phase: var(--orange);
-				--phase-soft: var(--orange-soft);
-				--focus: 50% 38%;
+				--phase-soft: var(--light-orange);
+				--focus: 50% 40%;
 			}
 
 			& .early-years {
 				--phase: var(--purple);
-				--phase-soft: var(--purple-soft);
-				--focus: 50% 48%;
+				--phase-soft: var(--light-purple);
+				--focus: 50% 50%;
 			}
 
 			& .primary {
-				--phase: var(--lime);
-				--phase-soft: var(--lime-soft);
+				--phase: var(--green);
+				--phase-soft: var(--light-green);
 				--focus: 50% 60%;
 			}
 
 			& .middle-school {
-				--phase: var(--light-teal);
-				--phase-soft: var(--soft-teal);
+				--phase: var(--teal);
+				--phase-soft: var(--light-teal);
 				--focus: 50% 30%;
 			}
 
 			& .upper-school {
 				--phase: var(--navy);
-				--phase-soft: var(--soft-blue);
-				--focus: 50% 42%;
+				--phase-soft: var(--light-navy);
+				--focus: 50% 40%;
 			}
 
 			& .tabs {
@@ -385,14 +384,14 @@
 				flex-wrap: wrap;
 				gap: 0px var(--space-m);
 				/* The rule is drawn inside the tab row, so a selected tab's 3px line covers it exactly */
-				box-shadow: inset 0px -1px var(--rule);
+				box-shadow: inset 0px -1px var(--light-gray);
 			}
 
 			& .tab {
 				padding: var(--space-m) var(--space-l) var(--space-m) var(--space-m);
 				font: 600 var(--size-m) var(--sans);
 				text-align: left;
-				color: var(--ink);
+				color: var(--dark-gray);
 				border: none;
 				border-bottom: 3px solid transparent;
 				border-radius: var(--radius) var(--radius) 0px 0px;
@@ -433,7 +432,7 @@
 				width: 100%;
 				padding: var(--space-m);
 				font: 600 var(--size-m) var(--sans);
-				color: var(--ink);
+				color: var(--dark-gray);
 				border: var(--line);
 				border-left: 6px solid var(--phase);
 				border-radius: var(--radius);
@@ -497,11 +496,11 @@
 					aspect-ratio: 1;
 					color: var(--white);
 					border-radius: 50%;
-					background: var(--grey);
-					transition: background-color var(--speed-fast);
+					background: var(--cool-gray);
+					transition: background-color var(--speed-short);
 
 					&:hover {
-						background-color: var(--ink);
+						background-color: var(--dark-gray);
 					}
 				}
 
@@ -632,7 +631,7 @@
 			<div class="wrap">
 				<svg class="logo" viewBox="0 0 425 200" role="img" aria-label="Obersee Bilingual School"><g id="obs_logo"><path fill="#b5bd00" d="M 0 0 S 89 25 131 82 C 167 131 134 168 134 168 S 149 119 114 79 C 68 25 0 0 0 0"/><path fill="#00a7b5" d="M 228 45 S 140 68 101 121 C 61 175 96 200 96 200 S 88 150 121 113 C 167 62 228 45 228 45"/><path fill="#004680" d="M 140 40 C 148 40 154 47 154 56 S 148 72 140 72 S 126 65 126 56 S 132 40 140 40"/><path fill="#ff8200" d="M 199 88 Q 160 88 160 123 Q 160 158 199 158 H 211 Q 250 158 250 123 Q 250 88 211 88 Z M 211 98 Q 238 98 238 123 Q 238 148 211 148 H 199 Q 172 148 172 123 Q 172 98 199 98 Z"/><path fill="#ff8200" d="M 308 88 Q 337 88 337 108 Q 337 120 325 123 Q 337 126 337 138 Q 337 158 308 158 H 269 Q 263 158 263 153 V 93 Q 263 88 269 88 Z M 275 119 H 308 Q 325 119 325 108 Q 325 98 308 98 H 276 Q 275 98 275 99 Z M 275 127 V 147 Q 275 148 276 148 H 308 Q 325 148 325 138 Q 325 127 308 127 Z"/><path fill="#ff8200" d="M 374 88 C 354 88 348 96 348 108 C 348 118 354 128 374 128 H 399 Q 413 128 413 138 Q 413 148 399 148 H 350 V 158 H 399 C 419 158 425 150 425 138 C 425 128 419 118 399 118 H 374 Q 360 118 360 108 Q 360 98 374 98 H 418 V 88 Z"/></g></svg>
 				<nav aria-label="Page">
-					<a class="link" href="discover" lang="en-GB" aria-label="English"><span class="full">English</span><span class="short">EN</span></a>
+					<a class="link" href="discover" lang="en-CH" aria-label="English"><span class="full">English</span><span class="short">EN</span></a>
 					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Führung buchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 				</nav>
 			</div>
@@ -681,11 +680,11 @@
 					</article>
 					<article class="stack reveal">
 						<h3>Zwei Wege, eine Schule</h3>
-						<p>Lehrplan 21 bis zur 9. Klasse, mit Progymnasium und Gymnasium unter einem Dach. Danach die eidgenössische Matura oder das IB Diploma (International Baccalaureate), ohne Schulwechsel.</p>
+						<p>Lehrplan 21 bis zur 9. Klasse, mit Progymnasium und Gymnasium unter einem Dach. Danach die eidgenössische Matura oder das International Baccalaureate (IB) Diploma, ohne Schulwechsel.</p>
 					</article>
 					<article class="stack reveal">
 						<h3>Kompetenzen für morgen</h3>
-						<p>Unsere Innovation Academy, Media Academy und Space Agency: Weltraumforschung, Meeresforschung, Film und mehr.</p>
+						<p>Die OBS Innovation Academy umfasst unsere Space Agency, Ocean &amp; Life Explorers und Media Academy. Die Lernenden arbeiten an echten Problemen, verbinden Wissen aus mehreren Fächern und entwickeln eigene Ideen.</p>
 					</article>
 				</div>
 			</div>
@@ -715,9 +714,9 @@
 							<span class="label">Babycare · Ab 3 Monaten</span>
 							<h3>Ein warmer Start für <em>Ihr Baby.</em></h3>
 							<ul>
-								<li>Einfühlsame, zweisprachige Betreuung</li>
+								<li>Aufmerksame, zweisprachige Betreuung</li>
 								<li>Kleine Gruppen</li>
-								<li>Ein kleines, liebevolles Umfeld</li>
+								<li>Ein fürsorgliches Umfeld</li>
 								<li>Betreuung von 7.15 bis 18.30 Uhr</li>
 							</ul>
 							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Babycare besuchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
@@ -809,7 +808,7 @@
 				<figure class="reveal"><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=1200&amp;quality=80&amp;strip=all" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=600&amp;quality=80&amp;strip=all 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=900&amp;quality=80&amp;strip=all 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=1200&amp;quality=80&amp;strip=all 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Zwei Jugendliche gehen im Gespräch durch einen Schulkorridor" width="1200" height="1800" class="top" loading="lazy" decoding="async" /></figure>
 				<div class="stack reveal">
 					<h2>Erleben Sie die OBS <em>selbst.</em></h2>
-					<p class="lead">Buchen Sie eine persönliche Führung durch unseren modernen, eigens für das Lernen gebauten Campus in Wollerau, lernen Sie einige unserer Lehrpersonen kennen und stellen Sie uns alle Fragen zum nächsten Schritt Ihres Kindes.</p>
+					<p class="lead">Buchen Sie eine persönliche Führung durch unseren modernen, eigens für das Lernen gebauten Campus in Wollerau, lernen Sie einige unserer Lehrpersonen kennen und stellen Sie uns Ihre Fragen zum nächsten Schritt Ihres Kindes.</p>
 					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Führung buchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 					<dl>
 						<dt class="label">Telefon</dt>
