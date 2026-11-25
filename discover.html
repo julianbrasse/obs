@@ -41,9 +41,17 @@
 		@font-face {
 			font-family: "Hanken Grotesk";
 			font-style: normal;
-			font-weight: 100 900;
+			font-weight: 400;
 			font-display: fallback;
 			src: url("https://www.obs.schule/wp-content/uploads/sites/169/fonts/ieVq2YZDLWuGJpnzaiwFXS9tYvBRzyFLlZg_f_Ncs2Za5PpNzXhRKA.woff2") format("woff2");
+		}
+
+		@font-face {
+			font-family: "Hanken Grotesk";
+			font-style: normal;
+			font-weight: 600;
+			font-display: fallback;
+			src: url("https://www.obs.schule/wp-content/uploads/sites/169/fonts/ieVq2YZDLWuGJpnzaiwFXS9tYvBRzyFLlZg_f_NcbWFa5PpNzXhRKA.woff2") format("woff2");
 		}
 
 		/* Order: @import, :root, *, Elements, Classes, IDs, Attributes, Selectors, Nesting Selectors, Pseudo-Elements, Pseudo-Classes, At-Rules */
@@ -78,7 +86,6 @@
 			--size-m: 1rem;
 			--size-l: 1.25rem;
 			--size-xl: 1.75rem;
-
 			--display-s: clamp(2rem, 4vw, 3rem);
 			--display-l: clamp(2.75rem, 6vw, 5rem);
 
@@ -355,8 +362,8 @@
 			}
 
 			& .primary {
-				--phase: var(--lime);
-				--phase-soft: var(--lime-soft);
+				--phase: var(--green);
+				--phase-soft: var(--light-green);
 				--focus: 50% 60%;
 			}
 
@@ -619,7 +626,7 @@
 </head>
 <body>
 	<!-- Test version of OBS_LandingPage_Discover_EN.html: same page, full document. Not for WordPress. -->
-	<div class="obslp" lang="en-GB">
+	<div class="obslp" lang="en-CH">
 		<header class="bar">
 			<div class="wrap">
 				<svg class="logo" viewBox="0 0 425 200" role="img" aria-label="Obersee Bilingual School"><g id="obs_logo"><path fill="#b5bd00" d="M 0 0 S 89 25 131 82 C 167 131 134 168 134 168 S 149 119 114 79 C 68 25 0 0 0 0"/><path fill="#00a7b5" d="M 228 45 S 140 68 101 121 C 61 175 96 200 96 200 S 88 150 121 113 C 167 62 228 45 228 45"/><path fill="#004680" d="M 140 40 C 148 40 154 47 154 56 S 148 72 140 72 S 126 65 126 56 S 132 40 140 40"/><path fill="#ff8200" d="M 199 88 Q 160 88 160 123 Q 160 158 199 158 H 211 Q 250 158 250 123 Q 250 88 211 88 Z M 211 98 Q 238 98 238 123 Q 238 148 211 148 H 199 Q 172 148 172 123 Q 172 98 199 98 Z"/><path fill="#ff8200" d="M 308 88 Q 337 88 337 108 Q 337 120 325 123 Q 337 126 337 138 Q 337 158 308 158 H 269 Q 263 158 263 153 V 93 Q 263 88 269 88 Z M 275 119 H 308 Q 325 119 325 108 Q 325 98 308 98 H 276 Q 275 98 275 99 Z M 275 127 V 147 Q 275 148 276 148 H 308 Q 325 148 325 138 Q 325 127 308 127 Z"/><path fill="#ff8200" d="M 374 88 C 354 88 348 96 348 108 C 348 118 354 128 374 128 H 399 Q 413 128 413 138 Q 413 148 399 148 H 350 V 158 H 399 C 419 158 425 150 425 138 C 425 128 419 118 399 118 H 374 Q 360 118 360 108 Q 360 98 374 98 H 418 V 88 Z"/></g></svg>
@@ -673,11 +680,11 @@
 					</article>
 					<article class="stack reveal">
 						<h3>Two pathways, one school</h3>
-						<p>The Swiss Lehrplan 21 up to Grade 9, with two academic tracks, Progymnasium and Gymnasium, under one roof. Then the Swiss Matura or the IB Diploma (International Baccalaureate), without changing school.</p>
+						<p>The Swiss Lehrplan 21 up to Grade 9, with two academic tracks, Progymnasium and Gymnasium, under one roof. Then the Swiss Matura or the International Baccalaureate (IB) Diploma, without changing school.</p>
 					</article>
 					<article class="stack reveal">
 						<h3>Skills for what comes next</h3>
-						<p>Our Innovation Academy, Media Academy and Space Agency: space science, ocean research, film and more.</p>
+						<p>The OBS Innovation Academy includes our Space Agency, Ocean &amp; Life Explorers, and Media Academy. Students work on real-world problems, draw on knowledge from several subjects, and develop their own ideas.</p>
 					</article>
 				</div>
 			</div>
@@ -707,9 +714,9 @@
 							<span class="label">Babycare · From 3 months</span>
 							<h3>A warm start for <em>your baby.</em></h3>
 							<ul>
-								<li>Responsive, bilingual care</li>
+								<li>Attentive, bilingual care</li>
 								<li>Small groups</li>
-								<li>A small and loving setting</li>
+								<li>A nurturing setting</li>
 								<li>Care from 07:15 to 18:30</li>
 							</ul>
 							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Visit our Babycare<span class="sr-only"> (opens in a new tab)</span></a>
@@ -801,7 +808,7 @@
 				<figure class="reveal"><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=1200&amp;quality=80&amp;strip=all" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=600&amp;quality=80&amp;strip=all 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=900&amp;quality=80&amp;strip=all 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=1200&amp;quality=80&amp;strip=all 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Two students walking and talking in a school corridor" width="1200" height="1800" class="top" loading="lazy" decoding="async" /></figure>
 				<div class="stack reveal">
 					<h2>See OBS <em>for yourself.</em></h2>
-					<p class="lead">Book a personal tour of our modern, purpose-built campus in Wollerau, meet some of our teachers and ask us anything about your child’s next step.</p>
+					<p class="lead">Book a personal tour of our modern, purpose-built campus in Wollerau, meet some of our teachers and ask us about your child’s next step.</p>
 					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Book a tour<span class="sr-only"> (opens in a new tab)</span></a>
 					<dl>
 						<dt class="label">Phone</dt>
