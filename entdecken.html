@@ -4,12 +4,12 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="robots" content="noindex, nofollow" />
-	<title>Obersee Bilingual School | Eidgenössische Matura oder IB Diploma</title>
+	<title>Obersee Bilingual School – Eidgenössische Matura oder IB Diploma</title>
 	<meta name="description" content="Zweisprachige Tagesschule auf Deutsch und Englisch in Wollerau, von der Babycare bis zur Oberstufe. Eidgenössische Matura oder IB Diploma. Führung buchen." />
 	<meta property="og:type" content="website" />
 	<meta property="og:locale" content="de_CH" />
 	<meta property="og:site_name" content="Obersee Bilingual School" />
-	<meta property="og:title" content="Obersee Bilingual School | Eidgenössische Matura oder IB Diploma" />
+	<meta property="og:title" content="Obersee Bilingual School – Eidgenössische Matura oder IB Diploma" />
 	<meta property="og:description" content="Zweisprachige Tagesschule in Wollerau, von der Babycare bis zur Oberstufe. Führung buchen." />
 	<meta property="og:image" content="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Science.jpg?crop=0,20,100,35&amp;resize=1200,630" />
 	<meta property="og:image:width" content="1200" />
@@ -89,6 +89,7 @@
 			--display-s: clamp(2rem, 4vw, 3rem);
 			--display-l: clamp(2.75rem, 6vw, 5rem);
 
+			--space-xs: 4px;
 			--space-s: 8px;
 			--space-m: 24px;
 			--space-l: 48px;
@@ -97,21 +98,13 @@
 			--line: 1px solid var(--rule);
 			--radius: 5px;
 			--speed: 0.35s;
+			--speed-fast: 0.15s;
 
 			overflow-x: clip;
 			font: var(--size-m)/1.55 var(--sans);
 			text-wrap: pretty;
 			color: var(--ink);
 			background: var(--white);
-			/* Hidden until the script has the fonts (.ready); shows after 3s on its own if the script never runs */
-			opacity: 0;
-			animation: appear 0s 3s forwards;
-			transition: opacity var(--speed);
-
-			&.ready {
-				opacity: 1;
-				animation: none;
-			}
 
 			& img {
 				display: block;
@@ -153,6 +146,10 @@
 
 			& h1 {
 				font-size: var(--display-l);
+			}
+
+			& .number {
+				margin-right: var(--space-xs);
 			}
 
 			& h3 {
@@ -236,6 +233,7 @@
 			& .link {
 				text-decoration: none;
 				border-bottom: var(--line);
+				transition: border-color var(--speed-fast);
 
 				&:hover {
 					border-color: var(--ink);
@@ -287,13 +285,20 @@
 				display: none;
 			}
 
-			/* Intro (hero, facts and Why OBS): teal fading to white, ending above the stages */
-			& .intro {
-				background: linear-gradient(var(--teal), var(--white));
-			}
+			/* Hero: solid teal, white text */
+			& .hero {
+				background: var(--teal);
 
-			& .hero .stack {
-				color: var(--white);
+				& .stack {
+					color: var(--white);
+				}
+
+				/* Outlined button. The teal half of the shared button gradient matches the hero,
+				   so at rest only the white outline shows; on hover it slides to navy like the other buttons. */
+				& .button {
+					outline: 2px solid var(--white);
+					outline-offset: -2px;
+				}
 			}
 
 			/* Hero: the photo is a blob, like the obs.schule header, and slowly changes shape (see @keyframes blob) */
@@ -325,11 +330,14 @@
 				}
 			}
 
+			/* Teal section with white text; the cards keep the dark text */
 			& .pathways {
-				background: var(--soft-teal);
+				color: var(--white);
+				background: var(--teal);
 
 				& article {
 					padding: var(--space-m);
+					color: var(--ink);
 					border: none;
 					border-radius: var(--radius);
 					background: var(--white);
@@ -357,13 +365,13 @@
 			& .primary {
 				--phase: var(--lime);
 				--phase-soft: var(--lime-soft);
-				--focus: 50% 35%;
+				--focus: 50% 60%;
 			}
 
 			& .middle-school {
 				--phase: var(--light-teal);
 				--phase-soft: var(--soft-teal);
-				--focus: 50% 45%;
+				--focus: 50% 30%;
 			}
 
 			& .upper-school {
@@ -477,6 +485,31 @@
 				}
 			}
 
+			/* Social icons: white glyphs centred in 44px grey circles (also the touch target); ink on hover, like the underlined links */
+			& .social {
+				display: flex;
+				gap: var(--space-s);
+
+				& a {
+					display: grid;
+					place-items: center;
+					width: 44px;
+					aspect-ratio: 1;
+					color: var(--white);
+					border-radius: 50%;
+					background: var(--grey);
+					transition: background-color var(--speed-fast);
+
+					&:hover {
+						background-color: var(--ink);
+					}
+				}
+
+				& svg {
+					height: 20px;
+				}
+			}
+
 			& :focus-visible {
 				outline: 3px solid var(--navy);
 				outline-offset: 3px;
@@ -555,14 +588,8 @@
 			}
 		}
 
-		@keyframes appear {
-			to {
-				opacity: 1;
-			}
-		}
-
 		/* Slide up: sections on scroll (.reveal) and the stage panel each time it is shown.
-		   Only once the page is ready, never for reduced motion or print. */
+		   Only once the script runs (.ready), never for reduced motion or print. */
 		@keyframes slide-up {
 			from {
 				opacity: 0;
@@ -610,82 +637,80 @@
 				</nav>
 			</div>
 		</header>
-		<div class="intro">
-			<section class="hero">
-				<div class="wrap split">
-					<div class="stack">
-						<p class="label">Obersee Bilingual School · Wollerau</p>
-						<h1><em>Zweisprachig</em> von den ersten Schritten bis zur Universität.</h1>
-						<p class="lead">Eine Tagesschule auf Deutsch und Englisch von der Babycare bis zur Oberstufe, mit zwei Wegen an Universitäten in der Schweiz und im Ausland: der eidgenössischen Matura oder dem IB Diploma.</p>
-						<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Führung buchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
-					</div>
-					<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Science.jpg?w=1200" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Science.jpg?w=600 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Science.jpg?w=900 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Science.jpg?w=1200 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Eine Schülerin hält im Schullabor ein Becherglas mit violetter Flüssigkeit hoch" width="1200" height="1800" fetchpriority="high" /></figure>
-					<ul class="facts">
-						<li class="reveal">
-							<p><span class="number">6:1</span></p>
-							<p class="muted">Lernende pro Lehrperson, für kleine Gruppen und persönliche Begleitung.</p>
-						</li>
-						<li class="reveal">
-							<p><span class="number">34</span> <span class="label">Nationen</span></p>
-							<p class="muted">Schweizer und internationale Familien, Seite an Seite.</p>
-						</li>
-						<li class="reveal">
-							<p><span class="number">50/50</span></p>
-							<p class="muted">Deutsch und Englisch zu gleichen Teilen.</p>
-						</li>
-						<li class="reveal">
-							<p><span class="number">30+</span> <span class="label">Clubs</span></p>
-							<p class="muted">Clubs und Aktivitäten über den Unterricht hinaus.</p>
-						</li>
-					</ul>
+		<section class="hero">
+			<div class="wrap split">
+				<div class="stack">
+					<p class="label">Obersee Bilingual School · Wollerau</p>
+					<h1><em>Zweisprachig</em> von den ersten Schritten bis zur Universität.</h1>
+					<p class="lead">Eine Tagesschule auf Deutsch und Englisch von der Babycare bis zur Oberstufe, mit zwei Wegen an Universitäten in der Schweiz und im Ausland: der eidgenössischen Matura oder dem IB Diploma.</p>
+					<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Führung buchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 				</div>
-			</section>
-			<section>
-				<div class="wrap stack">
-					<p class="label reveal">Warum die OBS</p>
-					<h2 class="reveal">Eine Schule, von der Babycare bis zur <em>Oberstufe.</em></h2>
-					<div class="split cards">
-						<article class="stack reveal">
-							<h3>Zweisprachig von Anfang an</h3>
-							<p>Deutsch und Englisch zu gleichen Teilen, von der Babycare ab 3 Monaten bis zur Oberstufe. So wachsen Kinder in beiden Sprachen selbstverständlich auf.</p>
-						</article>
-						<article class="stack reveal">
-							<h3>Jedes Kind wird gesehen</h3>
-							<p>Kleine Gruppen, Lehrpersonen als Mentorinnen und Mentoren und ab der 7. Klasse ein persönlicher Coach für alle Lernenden. Mit Unterstützung, wo ein Kind sie braucht, und Förderung, wo es weiter will.</p>
-						</article>
-						<article class="stack reveal">
-							<h3>Zwei Wege, eine Schule</h3>
-							<p>Lehrplan 21 bis zur 9. Klasse, mit Progymnasium und Gymnasium unter einem Dach. Danach die eidgenössische Matura oder das IB Diploma (International Baccalaureate), ohne Schulwechsel.</p>
-						</article>
-						<article class="stack reveal">
-							<h3>Kompetenzen für morgen</h3>
-							<p>Unsere Innovation Academy, Media Academy und Space Agency: Weltraumforschung, Meeresforschung, Film und mehr.</p>
-						</article>
-					</div>
+				<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Science.jpg?w=1200&amp;quality=80&amp;strip=all" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Science.jpg?w=600&amp;quality=80&amp;strip=all 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Science.jpg?w=900&amp;quality=80&amp;strip=all 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Science.jpg?w=1200&amp;quality=80&amp;strip=all 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Eine Schülerin hält im Schullabor ein Becherglas mit violetter Flüssigkeit hoch" width="1200" height="1800" fetchpriority="high" /></figure>
+				<ul class="facts">
+					<li class="reveal">
+						<p><span class="number">6:1</span></p>
+						<p class="muted">Lernende pro Lehrperson, für kleine Gruppen und persönliche Begleitung.</p>
+					</li>
+					<li class="reveal">
+						<p><span class="number">34</span> <span class="label">Nationen</span></p>
+						<p class="muted">Schweizer und internationale Familien, Seite an Seite.</p>
+					</li>
+					<li class="reveal">
+						<p><span class="number">50/50</span></p>
+						<p class="muted">Deutsch und Englisch zu gleichen Teilen.</p>
+					</li>
+					<li class="reveal">
+						<p><span class="number">30+</span> <span class="label">Clubs</span></p>
+						<p class="muted">Clubs und Aktivitäten über den Unterricht hinaus.</p>
+					</li>
+				</ul>
+			</div>
+		</section>
+		<section>
+			<div class="wrap stack">
+				<p class="label reveal">Warum die OBS</p>
+				<h2 class="reveal">Eine Schule, von der Babycare bis zur <em>Oberstufe.</em></h2>
+				<div class="split cards">
+					<article class="stack reveal">
+						<h3>Zweisprachig von Anfang an</h3>
+						<p>Deutsch und Englisch zu gleichen Teilen, von der Babycare ab 3 Monaten bis zur Oberstufe. So wachsen Kinder in beiden Sprachen selbstverständlich auf.</p>
+					</article>
+					<article class="stack reveal">
+						<h3>Jedes Kind wird gesehen</h3>
+						<p>Kleine Gruppen, Lehrpersonen als Mentorinnen und Mentoren und ab der 7. Klasse ein persönlicher Coach für alle Lernenden. Mit Unterstützung, wo ein Kind sie braucht, und Förderung, wo es weiter will.</p>
+					</article>
+					<article class="stack reveal">
+						<h3>Zwei Wege, eine Schule</h3>
+						<p>Lehrplan 21 bis zur 9. Klasse, mit Progymnasium und Gymnasium unter einem Dach. Danach die eidgenössische Matura oder das IB Diploma (International Baccalaureate), ohne Schulwechsel.</p>
+					</article>
+					<article class="stack reveal">
+						<h3>Kompetenzen für morgen</h3>
+						<p>Unsere Innovation Academy, Media Academy und Space Agency: Weltraumforschung, Meeresforschung, Film und mehr.</p>
+					</article>
 				</div>
-			</section>
-		</div>
+			</div>
+		</section>
 		<section>
 			<div class="wrap stack">
 				<p class="label reveal">Jede Stufe</p>
 				<h2 class="reveal">Der ganze Weg Ihres Kindes, <em>an einem Ort.</em></h2>
 				<div class="stack reveal">
 					<div class="tabs" role="tablist">
-						<button class="tab babycare" type="button" role="tab" value="babycare" id="tab_babycare" aria-controls="panel_babycare" aria-selected="true">Babycare <span class="muted">Ab 3 Monaten</span></button>
+						<button class="tab babycare" type="button" role="tab" value="babycare" id="tab_babycare" aria-controls="panel_babycare" aria-selected="false">Babycare <span class="muted">Ab 3 Monaten</span></button>
 						<button class="tab early-years" type="button" role="tab" value="early-years" id="tab_early_years" aria-controls="panel_early_years" aria-selected="false">Vorschule & Kindergarten <span class="muted">2 bis 6 Jahre</span></button>
 						<button class="tab primary" type="button" role="tab" value="primary" id="tab_primary" aria-controls="panel_primary" aria-selected="false">Primarschule <span class="muted">1. bis 6. Klasse</span></button>
-						<button class="tab middle-school" type="button" role="tab" value="middle-school" id="tab_middle_school" aria-controls="panel_middle_school" aria-selected="false">Mittelstufe <span class="muted">7. bis 9. Klasse</span></button>
+						<button class="tab middle-school" type="button" role="tab" value="middle-school" id="tab_middle_school" aria-controls="panel_middle_school" aria-selected="true">Mittelstufe <span class="muted">7. bis 9. Klasse</span></button>
 						<button class="tab upper-school" type="button" role="tab" value="upper-school" id="tab_upper_school" aria-controls="panel_upper_school" aria-selected="false">Oberstufe <span class="muted">10. bis 12./13. Klasse</span></button>
 					</div>
-					<select class="phase-select babycare" aria-label="Jede Stufe">
+					<select class="phase-select middle-school" aria-label="Jede Stufe">
 						<option value="babycare">Babycare · Ab 3 Monaten</option>
 						<option value="early-years">Vorschule & Kindergarten · 2 bis 6 Jahre</option>
 						<option value="primary">Primarschule · 1. bis 6. Klasse</option>
-						<option value="middle-school">Mittelstufe · 7. bis 9. Klasse</option>
+						<option value="middle-school" selected>Mittelstufe · 7. bis 9. Klasse</option>
 						<option value="upper-school">Oberstufe · 10. bis 12./13. Klasse</option>
 					</select>
-					<div class="panel split babycare" role="tabpanel" id="panel_babycare" aria-labelledby="tab_babycare">
-						<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Babycare_Toy.jpg?w=1200" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Babycare_Toy.jpg?w=600 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Babycare_Toy.jpg?w=900 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Babycare_Toy.jpg?w=1200 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Eine Betreuerin sitzt am Boden, ein lachendes Baby mit einem Plüsch-Lama auf dem Schoss" width="1200" height="1800" decoding="async" /></figure>
+					<div class="panel split babycare" role="tabpanel" id="panel_babycare" aria-labelledby="tab_babycare" hidden>
+						<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Babycare_Toy.jpg?w=1200&amp;quality=80&amp;strip=all" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Babycare_Toy.jpg?w=600&amp;quality=80&amp;strip=all 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Babycare_Toy.jpg?w=900&amp;quality=80&amp;strip=all 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Babycare_Toy.jpg?w=1200&amp;quality=80&amp;strip=all 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Eine Betreuerin sitzt am Boden, ein lachendes Baby mit einem Plüsch-Lama auf dem Schoss" width="1200" height="1800" loading="lazy" decoding="async" /></figure>
 						<div class="stack">
 							<span class="label">Babycare · Ab 3 Monaten</span>
 							<h3>Ein warmer Start für <em>Ihr Baby.</em></h3>
@@ -699,7 +724,7 @@
 						</div>
 					</div>
 					<div class="panel split early-years" role="tabpanel" id="panel_early_years" aria-labelledby="tab_early_years" hidden>
-						<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_EarlyYears_Reading.jpg?w=1200" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_EarlyYears_Reading.jpg?w=600 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_EarlyYears_Reading.jpg?w=900 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_EarlyYears_Reading.jpg?w=1200 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Eine Pädagogin liest drei kleinen Kindern aus einem Bilderbuch vor" width="1200" height="1800" decoding="async" /></figure>
+						<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_EarlyYears_Reading.jpg?w=1200&amp;quality=80&amp;strip=all" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_EarlyYears_Reading.jpg?w=600&amp;quality=80&amp;strip=all 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_EarlyYears_Reading.jpg?w=900&amp;quality=80&amp;strip=all 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_EarlyYears_Reading.jpg?w=1200&amp;quality=80&amp;strip=all 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Eine Pädagogin liest drei kleinen Kindern aus einem Bilderbuch vor" width="1200" height="1800" loading="lazy" decoding="async" /></figure>
 						<div class="stack">
 							<span class="label">Vorschule & Kindergarten · 2 bis 6 Jahre</span>
 							<h3>Zweisprachig von <em>Anfang an.</em></h3>
@@ -714,7 +739,7 @@
 						</div>
 					</div>
 					<div class="panel split primary" role="tabpanel" id="panel_primary" aria-labelledby="tab_primary" hidden>
-						<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Primary_Measuring.jpg?w=1200" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Primary_Measuring.jpg?w=600 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Primary_Measuring.jpg?w=900 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Primary_Measuring.jpg?w=1200 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Ein lächelndes Mädchen misst etwas an einem Whiteboard ab" width="1200" height="1800" decoding="async" /></figure>
+						<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Primary_Measuring.jpg?w=1200&amp;quality=80&amp;strip=all" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Primary_Measuring.jpg?w=600&amp;quality=80&amp;strip=all 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Primary_Measuring.jpg?w=900&amp;quality=80&amp;strip=all 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_Primary_Measuring.jpg?w=1200&amp;quality=80&amp;strip=all 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Ein lächelndes Mädchen misst etwas an einem Whiteboard ab" width="1200" height="1800" loading="lazy" decoding="async" /></figure>
 						<div class="stack">
 							<span class="label">Primarschule · 1. bis 6. Klasse</span>
 							<h3>Neugierig. Selbstbewusst. <em>Zweisprachig.</em></h3>
@@ -723,13 +748,13 @@
 								<li>Lehrpersonen als Mentoren, mit individueller Förderung</li>
 								<li>Projekte und ausführliches Feedback statt klassischer Noten</li>
 								<li>Clubs und Angebote über den Unterricht hinaus</li>
-								<li>Schulbusse ab Pfäffikon und Thalwil</li>
+								<li>Frisches, ausgewogenes Mittagessen und Snacks inklusive</li>
 							</ul>
 							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Primarschule besuchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 						</div>
 					</div>
-					<div class="panel split middle-school" role="tabpanel" id="panel_middle_school" aria-labelledby="tab_middle_school" hidden>
-						<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_MiddleSchool_Students.jpg?w=1200" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_MiddleSchool_Students.jpg?w=600 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_MiddleSchool_Students.jpg?w=900 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_MiddleSchool_Students.jpg?w=1200 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Eine Schülerin lächelt über ihrer Arbeit, im Vordergrund zwei Mitschüler" width="1200" height="1800" decoding="async" /></figure>
+					<div class="panel split middle-school" role="tabpanel" id="panel_middle_school" aria-labelledby="tab_middle_school">
+						<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_MiddleSchool_Students.jpg?w=1200&amp;quality=80&amp;strip=all" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_MiddleSchool_Students.jpg?w=600&amp;quality=80&amp;strip=all 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_MiddleSchool_Students.jpg?w=900&amp;quality=80&amp;strip=all 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_MiddleSchool_Students.jpg?w=1200&amp;quality=80&amp;strip=all 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Eine Schülerin lächelt über ihrer Arbeit, im Vordergrund zwei Mitschüler" width="1200" height="1800" loading="lazy" decoding="async" /></figure>
 						<div class="stack">
 							<span class="label">Mittelstufe · 7. bis 9. Klasse</span>
 							<h3>Eigene Träume. <em>Eigener Weg.</em></h3>
@@ -738,13 +763,13 @@
 								<li>Progymnasium und Gymnasium nebeneinander, unter einem Dach</li>
 								<li>Eidgenössische Matura oder IB Diploma, gewählt nach der 9. Klasse</li>
 								<li>Weltraumforschung, Meeresforschung, Film und mehr</li>
-								<li>Schulbusse ab Pfäffikon und Thalwil</li>
+								<li>Frisches, ausgewogenes Mittagessen und Snacks inklusive</li>
 							</ul>
 							<a class="button" href="https://obs.classowl.com/forms/general-interest/" target="_blank" rel="noopener">Mittelstufe besuchen<span class="sr-only"> (öffnet in einem neuen Tab)</span></a>
 						</div>
 					</div>
 					<div class="panel split upper-school" role="tabpanel" id="panel_upper_school" aria-labelledby="tab_upper_school" hidden>
-						<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Fruitbowl.jpg?w=1200" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Fruitbowl.jpg?w=600 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Fruitbowl.jpg?w=900 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Fruitbowl.jpg?w=1200 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Zwei Schüler im angeregten Gespräch an einem Tisch am Fenster" width="1200" height="1800" decoding="async" /></figure>
+						<figure><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Fruitbowl.jpg?w=1200&amp;quality=80&amp;strip=all" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Fruitbowl.jpg?w=600&amp;quality=80&amp;strip=all 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Fruitbowl.jpg?w=900&amp;quality=80&amp;strip=all 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Fruitbowl.jpg?w=1200&amp;quality=80&amp;strip=all 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Zwei Schüler im angeregten Gespräch an einem Tisch am Fenster" width="1200" height="1800" loading="lazy" decoding="async" /></figure>
 						<div class="stack">
 							<span class="label">Oberstufe · 10. bis 12./13. Klasse</span>
 							<h3>Der Weg an die <em>Universität.</em></h3>
@@ -781,7 +806,7 @@
 		</section>
 		<section>
 			<div class="wrap split">
-				<figure class="reveal"><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=1200" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=600 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=900 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=1200 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Zwei Jugendliche gehen im Gespräch durch einen Schulkorridor" width="1200" height="1800" class="top" decoding="async" /></figure>
+				<figure class="reveal"><img src="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=1200&amp;quality=80&amp;strip=all" srcset="https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=600&amp;quality=80&amp;strip=all 600w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=900&amp;quality=80&amp;strip=all 900w, https://www.obs.schule/wp-content/uploads/sites/169/2026/11/OBS_2026_UpperSchool_Walking.jpg?w=1200&amp;quality=80&amp;strip=all 1200w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1180px) calc(50vw - 48px), 542px" alt="Zwei Jugendliche gehen im Gespräch durch einen Schulkorridor" width="1200" height="1800" class="top" loading="lazy" decoding="async" /></figure>
 				<div class="stack reveal">
 					<h2>Erleben Sie die OBS <em>selbst.</em></h2>
 					<p class="lead">Buchen Sie eine persönliche Führung durch unseren modernen, eigens für das Lernen gebauten Campus in Wollerau, lernen Sie einige unserer Lehrpersonen kennen und stellen Sie uns alle Fragen zum nächsten Schritt Ihres Kindes.</p>
@@ -800,6 +825,12 @@
 		<footer>
 			<div class="wrap">
 				<svg class="logo" viewBox="0 0 425 200" role="img" aria-label="Obersee Bilingual School"><use href="#obs_logo" /></svg>
+				<ul class="social">
+					<li><a href="https://www.instagram.com/obs.school" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M224.3 141a115 115 0 1 0-.6 230 115 115 0 1 0 .6-230m-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1-.6-149.2m93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1-53.6 0m129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8M399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1"/></svg></a></li>
+					<li><a href="https://www.facebook.com/obs.school" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256c0 120 82.7 220.8 194.2 248.5V334.2h-52.8V256h52.8v-33.7c0-87.1 39.4-127.5 125-127.5 16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287v175.9C413.8 494.8 512 386.9 512 256"/></svg></a></li>
+					<li><a href="https://www.linkedin.com/school/oberseebilingualschool" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg></a></li>
+					<li><a href="https://www.youtube.com/@obs.school" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 576 512" fill="currentColor" aria-hidden="true"><path d="M549.7 124.1c-6.2-23.7-24.8-42.3-48.3-48.6C458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5c-23.5 6.3-42 24.9-48.3 48.6C15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8C117.3 448 288.1 448 288.1 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6V175.2l142.7 81.2z"/></svg></a></li>
+				</ul>
 				<p class="muted">IB World School · NEASC-akkreditiert · Lehrplan 21<br />Obersee Bilingual School AG · <a href="https://www.obs.schule/datenschutzerklaerung/" target="_blank" rel="noopener">Datenschutz</a></p>
 				<a class="link" href="https://obs.schule/" target="_blank" rel="noopener">Zu unserer Website</a>
 			</div>
@@ -810,9 +841,11 @@
 			const tabs = [...page.querySelectorAll(`.tab`)];
 			const phase_select = page.querySelector(`.phase-select`);
 
-			// Unknown or missing phase falls back to the first stage
+			// Unknown or missing phase falls back to the stage selected in the HTML (Middle School)
+			const default_tab = tabs.find((tab) => tab.getAttribute(`aria-selected`) === `true`);
+
 			function showPhase(phase, update_url) {
-				const selected = tabs.find((tab) => tab.value === phase) ?? tabs[0];
+				const selected = tabs.find((tab) => tab.value === phase) ?? default_tab;
 
 				tabs.forEach((tab) => {
 					tab.setAttribute(`aria-selected`, tab === selected);
@@ -853,6 +886,9 @@
 
 			showPhase(new URLSearchParams(location.search).get(`phase`), false);
 
+			// Stage photos are lazy; once the page has loaded, fetch the hidden ones too so switching is instant
+			addEventListener(`load`, () => page.querySelectorAll(`.panel img`).forEach((img) => (img.loading = `eager`)));
+
 			// Slide up: elements that come into view together are staggered by 0.1s, each runs once
 			const observer = new IntersectionObserver((entries) => {
 				entries.filter((entry) => entry.isIntersecting).forEach((entry, i) => {
@@ -862,14 +898,8 @@
 				});
 			}, { rootMargin: `0px 0px -10% 0px` });
 
-			// Show the page and start the animations once the fonts are in (or after 3s, so a slow font never blocks it)
-			const fonts = [`300 1em Newsreader`, `italic 300 1em Newsreader`, `400 1em Newsreader`, `400 1em "Hanken Grotesk"`, `600 1em "Hanken Grotesk"`];
-			const timeout = new Promise((resolve) => setTimeout(resolve, 3000));
-
-			Promise.race([Promise.all(fonts.map((font) => document.fonts.load(font))), timeout]).finally(() => {
-				page.classList.add(`ready`);
-				page.querySelectorAll(`.reveal`).forEach((element) => observer.observe(element));
-			});
+			page.querySelectorAll(`.reveal`).forEach((element) => observer.observe(element));
+			page.classList.add(`ready`);
 		});
 	</script>
 </body>
